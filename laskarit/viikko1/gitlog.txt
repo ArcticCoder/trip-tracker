@@ -1,0 +1,113 @@
+commit f078ad2db2cba4388d8c784a7cd8ba0baaea5575
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:56:25 2022 +0200
+
+    rm and mv files
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 2ed48ca4c89a962ffcccc82f92750f67484d9aaf
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:53:57 2022 +0200
+
+    Lisätty tiedostot file{1-3}
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit aa5c04522a470ac1d9f51503641e611b881ed89e
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:51:36 2022 +0200
+
+    Muutoksia
+
+ eka.txt    | 2 +-
+ kolmas.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 342cc709dc49d888e62eb014a3d603c0a512b19f
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:49:12 2022 +0200
+
+    Uudelleennimetty tiedosto.txt -> eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 96e42da59b3f890d592efb3e2dd0ec9b92a9a417
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:48:21 2022 +0200
+
+    Poistettu toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 049ecdfb7cc65f904a4accce053b8a6353e35b6b
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:45:56 2022 +0200
+
+    Muutos3 tiedosto.txt
+
+ tiedosto.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 66214a0955a20bf84074160f5acaf8cfd461e964
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:45:23 2022 +0200
+
+    Lorem ipsum tiedosto.txt
+
+ tiedosto.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 6465158178fa19b2b3467f57bd693d4c1ad64661
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:36:27 2022 +0200
+
+    thing.txt luotu
+
+ stuff/thing.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 463e375a54c1f9e9e9da0c220837595f8e9bd436
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:38:05 2022 +0200
+
+    muutettu toinen.txt ja kolmas.txt
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 5b541b197731117d53665909bba8b92bea773388
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:35:27 2022 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit f1aec4cfefee877d7d54895922e52a74f4f2143a
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:34:36 2022 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit eaa965b6700f04a167f5f8b036e923395ed8bd66
+Author: Vili Sinervä <vili.sinerva@helsinki.fi>
+Date:   Thu Mar 17 18:33:27 2022 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
