@@ -1,6 +1,6 @@
 # HY-OhTe - Vili Sinervä
 
-Vili Sinervä **OhTE** kurssin *git repositoirio*
+Vili Sinervän **OhTE** kurssin *git repositoirio*
 
 ## Tehtävät
 
