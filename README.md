@@ -1,6 +1,6 @@
 # HY-OhTe - Vili Sinervä
 
-Vili Sinervän **OhTE** kurssin *git repositoirio*
+Vili Sinervän **OhTE** kurssin *git repositoirio*. Projektina matkojen seuranta sovellus.
 
 ## Tehtävät
 
