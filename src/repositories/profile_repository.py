@@ -5,7 +5,7 @@ class ProfileRepository:
         self._connection = connection
 
     def list_all(self):
-        rows = self._connection.execute("SELECT id, name FROM profiles").fetchall()
+        rows = self._connection.execute("SELECT id, name FROM profiles ORDER BY name").fetchall()
         return list(map(tuple, rows))
 
     def find_name(self, id : int):
