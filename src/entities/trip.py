@@ -7,4 +7,7 @@ class Trip:
         self.end_time = end_time
         self.duration = duration
         self.length = length
-        self.speed = self.length / self.duration
+        if self.duration != 0:
+            self.speed = self.length / self.duration
+        else:
+            self.speed = 0

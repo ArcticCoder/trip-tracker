@@ -1,6 +1,6 @@
 import tkinter as tk
-import tkinter.font as tkf
 from functools import partial
+from datetime import datetime
 from entities.trip import Trip
 from services.trip_tracker_service import trip_tracker_service
 
@@ -12,19 +12,46 @@ class TripView():
         self._frame = tk.Frame(self._root)
         self._trips_frame = tk.Frame(self._root)
 
-        #self._new_user_frame = tk.Frame(self._frame, pady=5)
-        # self._new_name_lbl = tk.Label(
-        #    self._new_user_frame, text="Nimi:", padx=5)
-        #self._new_name_entry = tk.Entry(self._new_user_frame)
-        # self._new_name_entry.bind(
-        #    "<Return>", lambda event: self._handle_add_btn())
-        # self._new_user_btn = tk.Button(
-        #    self._new_user_frame, text="Lisää", command=self._handle_add_btn, padx=5)
+        self._new_trip_frame = tk.Frame(self._frame, pady=5)
 
-        #self._new_name_lbl.grid(row=0, column=0)
-        #self._new_name_entry.grid(row=0, column=1)
-        #self._new_user_btn.grid(row=0, column=2)
-        #self._new_user_frame.pack(fill=tk.constants.BOTH, expand=True)
+        self._new_name_lbl = tk.Label(
+            self._new_trip_frame, text="Nimi:", padx=5)
+        self._new_name_entry = tk.Entry(self._new_trip_frame)
+        self._new_length_lbl = tk.Label(
+            self._new_trip_frame, text="Pituus:", padx=5)
+        self._new_length_entry = tk.Entry(self._new_trip_frame)
+        self._length_format_lbl = tk.Label(
+            self._new_trip_frame, text="(m)", padx=5)
+
+        self._default_datetime_str = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        self._new_start_lbl = tk.Label(
+            self._new_trip_frame, text="Aloitus:", padx=5)
+        self._new_start_entry = tk.Entry(self._new_trip_frame)
+        self._new_start_entry.insert(0, self._default_datetime_str)
+        self._new_end_lbl = tk.Label(
+            self._new_trip_frame, text="Lopetus:", padx=5)
+        self._new_end_entry = tk.Entry(self._new_trip_frame)
+        self._new_end_entry.insert(0, self._default_datetime_str)
+        self._time_format_lbl = tk.Label(
+            self._new_trip_frame, text="(YYYY-MM-DD HH:MM(:SS)", padx=5)
+
+        self._new_trip_btn = tk.Button(
+            self._new_trip_frame, text="Lisää", command=self._handle_add_btn, padx=5)
+
+        self._new_name_lbl.grid(row=0, column=0)
+        self._new_name_entry.grid(row=0, column=1)
+        self._new_length_lbl.grid(row=0, column=2)
+        self._new_length_entry.grid(row=0, column=3)
+        self._length_format_lbl.grid(row=0, column=4, sticky=tk.constants.W)
+
+        self._new_start_lbl.grid(row=1, column=0)
+        self._new_start_entry.grid(row=1, column=1)
+        self._new_end_lbl.grid(row=1, column=2)
+        self._new_end_entry.grid(row=1, column=3)
+        self._time_format_lbl.grid(row=1, column=4)
+
+        self._new_trip_btn.grid(row=6, column=0)
+        self._new_trip_frame.pack(fill=tk.constants.BOTH, expand=True)
 
         self._print_trips()
 
@@ -113,10 +140,41 @@ class TripView():
         self._trips_frame.pack(fill=tk.constants.BOTH, expand=True)
 
     def _handle_add_btn(self):
-        # TODO get info
-        #name = self._new_name_entry.get()
-        #self._new_name_entry.delete(0, "end")
-        trip_tracker_service.add_trip(name)
+        name = self._new_name_entry.get()
+
+        start_time = self._new_start_entry.get()
+        if not trip_tracker_service.valid_time(start_time):
+            self._new_start_entry.delete(0, "end")
+            self._new_start_entry.insert(0, self._default_datetime_str)
+            return
+
+        end_time = self._new_end_entry.get()
+        if not trip_tracker_service.valid_time(end_time):
+            self._new_end_entry.delete(0, "end")
+            self._new_end_entry.insert(0, self._default_datetime_str)
+            return
+
+        if start_time > end_time:
+            self._new_start_entry.delete(0, "end")
+            self._new_start_entry.insert(0, self._default_datetime_str)
+            self._new_end_entry.delete(0, "end")
+            self._new_end_entry.insert(0, self._default_datetime_str)
+            return
+
+        try:
+            length = int(self._new_length_entry.get())
+        except ValueError:
+            self._new_length_entry.delete(0, "end")
+            return
+
+        self._new_name_entry.delete(0, "end")
+        self._new_start_entry.delete(0, "end")
+        self._new_start_entry.insert(0, self._default_datetime_str)
+        self._new_end_entry.delete(0, "end")
+        self._new_end_entry.insert(0, self._default_datetime_str)
+        self._new_length_entry.delete(0, "end")
+
+        trip_tracker_service.add_trip(self._profile_id, name, start_time, end_time, length)
         self._print_trips()
 
     def _del_btn_click(self, trip_id):
