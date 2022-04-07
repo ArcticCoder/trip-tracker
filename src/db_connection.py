@@ -1,6 +1,6 @@
 import os
-from dotenv import load_dotenv
 import sqlite3
+from dotenv import load_dotenv
 
 dirname = os.path.dirname(__file__)
 
@@ -14,6 +14,7 @@ DB_FILE_PATH = os.path.join(dirname, "..", "data", DB_FILENAME)
 
 connection = sqlite3.connect(DB_FILE_PATH)
 connection.row_factory = sqlite3.Row
+
 
 def get_db_connection():
     return connection

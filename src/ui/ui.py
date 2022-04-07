@@ -1,6 +1,7 @@
 import tkinter as tk
 from ui.profile_view import ProfileView
 
+
 class UI:
     def __init__(self, root):
         self._root = root
@@ -16,11 +17,12 @@ class UI:
 
     def _show_profile_view(self):
         self._hide_current_view()
-        self._current_view = ProfileView(self._root, self._handle_profile_select)
+        self._current_view = ProfileView(
+            self._root, self._handle_profile_select)
         self._current_view.pack()
 
     def _show_main_view(self):
         pass
 
-    def _handle_profile_select(self, name : str):
+    def _handle_profile_select(self, name: str):
         pass

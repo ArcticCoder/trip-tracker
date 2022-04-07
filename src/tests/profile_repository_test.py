@@ -3,6 +3,7 @@ from db_connection import get_db_connection
 from db_management import init_db
 from repositories.profile_repository import profile_repository
 
+
 class TestProfileRepository(unittest.TestCase):
     def setUp(self):
         init_db()
@@ -13,7 +14,8 @@ class TestProfileRepository(unittest.TestCase):
         profile_repository.add("Charlie")
         profiles = profile_repository.list_all()
         self.assertEqual(len(profiles), 3)
-        self.assertEqual(sorted([profile[1] for profile in profiles]), ["Alice", "Bob", "Charlie"])
+        self.assertEqual(sorted([profile[1] for profile in profiles]), [
+                         "Alice", "Bob", "Charlie"])
 
     def test_find_name(self):
         profile_repository.add("Alice")
