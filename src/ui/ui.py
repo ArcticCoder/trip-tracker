@@ -1,5 +1,6 @@
 import tkinter as tk
 from ui.profile_view import ProfileView
+from ui.trip_view import TripView
 
 
 class UI:
@@ -21,8 +22,12 @@ class UI:
             self._root, self._handle_profile_select)
         self._current_view.pack()
 
-    def _show_main_view(self):
-        pass
+    def _show_trips_view(self, profile_id):
+        self._hide_current_view()
+        self._current_view = TripView(
+            self._root, profile_id)
+        self._current_view.pack()
+        
 
-    def _handle_profile_select(self, name: str):
-        pass
+    def _handle_profile_select(self, profile_id):
+        self._show_trips_view(profile_id)
