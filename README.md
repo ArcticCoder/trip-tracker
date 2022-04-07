@@ -28,6 +28,16 @@ poetry run invoke start
 ```
 
 ### Testaus ja kehitys:
+Pylintin suoritus
+```bash
+poetry run invoke lint
+```
+
+autopep8 koodin muotoilu
+```bash
+poetry run invoke format
+```
+
 Testien suoritus
 ```bash
 poetry run invoke test
