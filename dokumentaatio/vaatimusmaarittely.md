@@ -13,34 +13,36 @@ Jokainen matka kuuluu tietylle profiilille. Tarkoituksena on ryhmitellä matkat 
 ### Ydin
 
 Pofiilinvalintaikkuna, jossa voidaan
- - Luoda uusi profiili tai vaihtaa profiilin nimi
-	 - Nimen tulee olla uniikki
- - Poistaa olemassaoleva profiili
- - Valita tarkasteltava profiili, jonka jälkeen avautuu pääikkuna
+ - Luoda uusi profiili (tehty)
+ - Vaihtaa profiilin nimi
+	 - Nimen tulee olla uniikki (tehty)
+ - Poistaa olemassaoleva profiili (tehty)
+ - Valita tarkasteltava profiili, jonka jälkeen avautuu pääikkuna (tehty)
 
 Pääikkuna, jossa voidaan
- - Tarkastella profiiliin liitettyjä matkoja
-	 - Oletuksena näkyy kaikki matkat kronologisessa järjestyksessä, mutta valinta voidaan rajata tietylle aikavälille
-	 - Matkoista näkyy (ainakin)
+ - Tarkastella profiiliin liitettyjä matkoja (tehty)
+	 - Oletuksena näkyy kaikki matkat kronologisessa järjestyksessä (tehty)
+    - Valinta voidaan rajata tietylle aikavälille
+	 - Matkoista näkyy (ainakin) (tehty)
 		 - Nimi
 		 - Aloitusaika
 		 - Lopetusaika
 		 - Kesto
 		 - Pituus
 		 - Keskinopeus
- - Lisätä uusi matka, johon liittyy tiedot
+ - Lisätä uusi matka, johon liittyy tiedot (tehty)
 	 - Nimi
 	 - Aloitusaika
 	 - Lopetusaika (mahdollisesti vaihtoehtona myös suoraan matkan kesto)
 	 - Pituus
- - Poistaa matkoja
+ - Poistaa matkoja (tehty)
  - Laskea ja tarkastella valituista matkoista erinnäisiä tilastoja. Esimerkiksi:
 	 - Keskimääräinen kesto
 	 - Keskimääräinen pituus
 	 - Keskimääräinen nopeus
  - Piirtää matkojen (numeerisista) tiedoista ja niistä laskettavista arvoista kuvaajia. Esimerkiksi:
 	 - Kuvaaja valittujen matkojen kestoista/pituuksista/keskinopeuksista ajan myötä
- - Palata profiilinvalintaan
+ - Palata profiilinvalintaan (tehty)
 
 ### Mahdollisuuksien ja tarpeiden mukaan lisättävät (karkeassa prioriteettijärjestyksessä)
 
