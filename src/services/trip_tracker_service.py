@@ -25,12 +25,12 @@ class TripTrackerService:
     def remove_trip(self, trip_id):
         trip_repository.remove(trip_id)
 
-    def seconds_to_string(self, S):
-        H = S // 3600
-        S -= H*3600
-        M = S // 60
-        S -= M*60
-        return f"{H:02}:{M:02}:{S:02}"
+    def seconds_to_string(self, seconds):
+        hours = seconds // 3600
+        seconds -= hours*3600
+        minutes = seconds // 60
+        seconds -= minutes*60
+        return f"{hours:02}:{minutes:02}:{seconds:02}"
 
 
 trip_tracker_service = TripTrackerService()

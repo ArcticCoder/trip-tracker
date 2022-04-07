@@ -14,12 +14,13 @@ class TripRepository:
         rows = self._connection.execute(sql, [profile_id]).fetchall()
         ret = []
         for row in rows:
-            ret.append(Trip(row["id"], row["name"], row["start_time"], row["end_time"], row["duration"], row["length"]))
+            ret.append(Trip(row["id"], row["name"], row["start_time"], row["end_time"],
+                            row["duration"], row["length"]))
         return ret
 
     def add(self, profile_id: int, name: str, start_time: str, end_time: str, length: int):
         sql = "INSERT INTO trips (profile_id, name, start_time, end_time, length)"\
-                "VALUES (?, ?, ?, ?, ?);"
+            "VALUES (?, ?, ?, ?, ?);"
         self._connection.execute(
             sql, [profile_id, name, start_time, end_time, length])
         self._connection.commit()

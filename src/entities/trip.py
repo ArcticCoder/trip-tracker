@@ -1,5 +1,6 @@
 class Trip:
-    def __init__(self, trip_id: int, name: str, start_time: str, end_time: str, duration: int, length: int):
+    def __init__(self, trip_id: int, name: str, start_time: str, end_time: str,
+                 duration: int, length: int):
         self.id = trip_id
         self.name = name
         self.start_time = start_time
