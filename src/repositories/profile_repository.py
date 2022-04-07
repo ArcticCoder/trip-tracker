@@ -30,9 +30,9 @@ class ProfileRepository:
             self._connection.execute(sql, [name])
             self._connection.commit()
 
-    def remove(self, name: str):
-        sql = "DELETE FROM profiles WHERE name==?;"
-        self._connection.execute(sql, [name])
+    def remove(self, profile_id: int):
+        sql = "DELETE FROM profiles WHERE id = ?;"
+        self._connection.execute(sql, [profile_id])
         self._connection.commit()
 
     def _name_available(self, name: str):

@@ -52,7 +52,7 @@ class ProfileView():
 
                 del_btn = tk.Button(self._user_frame, text="X", anchor=tk.constants.W,
                                     activebackground="grey", bg="lightgrey", highlightbackground="black", relief=tk.constants.FLAT,
-                                    command=partial(self._del_btn_click, users[i][1]))
+                                    command=partial(self._del_btn_click, users[i][0]))
                 del_btn.grid(row=i, column=1, sticky=tk.constants.EW)
 
             self._user_frame.pack(fill=tk.constants.BOTH, expand=True)
@@ -63,6 +63,6 @@ class ProfileView():
         trip_tracker_service.add_profile(name)
         self._print_profiles()
 
-    def _del_btn_click(self, name):
-        trip_tracker_service.remove_profile(name)
+    def _del_btn_click(self, profile_id):
+        trip_tracker_service.remove_profile(profile_id)
         self._print_profiles()
