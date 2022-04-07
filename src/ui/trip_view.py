@@ -177,7 +177,8 @@ class TripView():
         self._new_end_entry.insert(0, self._default_datetime_str)
         self._new_length_entry.delete(0, "end")
 
-        trip_tracker_service.add_trip(self._profile_id, name, start_time, end_time, length)
+        trip_tracker_service.add_trip(
+            self._profile_id, name, start_time, end_time, length)
         self._print_trips()
 
     def _del_btn_click(self, trip_id):

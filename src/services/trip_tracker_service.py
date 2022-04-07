@@ -1,6 +1,6 @@
+import re
 from repositories.profile_repository import profile_repository
 from repositories.trip_repository import trip_repository
-import re
 
 
 class TripTrackerService:
@@ -34,8 +34,8 @@ class TripTrackerService:
         return f"{hours:02}:{minutes:02}:{seconds:02}"
 
     def valid_time(self, time: str):
-        pattern1 = re.compile("^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")
-        pattern2 = re.compile("^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
+        pattern1 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")
+        pattern2 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
         return pattern1.match(time) or pattern2.match(time)
 
 
