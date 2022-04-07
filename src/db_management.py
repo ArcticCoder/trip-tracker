@@ -12,7 +12,7 @@ def create_tables(connection):
     connection.execute("CREATE TABLE IF NOT EXISTS trips"
                        "(id INTEGER PRIMARY KEY, profile_id INTEGER NOT NULL,"
                        "name TEXT NOT NULL, start_time TEXT, end_time TEXT,"
-                       "length REAL,"
+                       "length INTEGER,"
                        "FOREIGN KEY(profile_id) REFERENCES profiles(id));")
 
 
