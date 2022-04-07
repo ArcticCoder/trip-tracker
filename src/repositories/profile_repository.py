@@ -10,9 +10,9 @@ class ProfileRepository:
         rows = self._connection.execute(sql).fetchall()
         return list(map(tuple, rows))
 
-    def find_name(self, user_id: int):
+    def find_name(self, profile_id: int):
         sql = "SELECT name FROM profiles WHERE id = ?"
-        result = self._connection.execute(sql, [user_id]).fetchone()
+        result = self._connection.execute(sql, [profile_id]).fetchone()
         if result:
             return result[0]
         return None
