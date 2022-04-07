@@ -25,8 +25,11 @@ class UI:
     def _show_trips_view(self, profile_id):
         self._hide_current_view()
         self._current_view = TripView(
-            self._root, profile_id)
+            self._root, profile_id, self._handle_exit_trip_view)
         self._current_view.pack()
 
     def _handle_profile_select(self, profile_id):
         self._show_trips_view(profile_id)
+
+    def _handle_exit_trip_view(self):
+        self._show_profile_view()

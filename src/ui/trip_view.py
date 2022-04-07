@@ -6,7 +6,7 @@ from services.trip_tracker_service import trip_tracker_service
 
 
 class TripView():
-    def __init__(self, root, profile_id):
+    def __init__(self, root, profile_id, handle_exit_btn):
         self._root = root
         self._profile_id = profile_id
         self._frame = tk.Frame(self._root)
@@ -37,6 +37,8 @@ class TripView():
 
         self._new_trip_btn = tk.Button(
             self._new_trip_frame, text="Lisää", command=self._handle_add_btn, padx=5)
+        self._exit_btn = tk.Button(
+            self._new_trip_frame, text="Poistu", command=handle_exit_btn, padx=5)
 
         self._new_name_lbl.grid(row=0, column=0)
         self._new_name_entry.grid(row=0, column=1)
@@ -51,6 +53,7 @@ class TripView():
         self._time_format_lbl.grid(row=1, column=4)
 
         self._new_trip_btn.grid(row=6, column=0)
+        self._exit_btn.grid(row=6, column=1)
         self._new_trip_frame.pack(fill=tk.constants.BOTH, expand=True)
 
         self._print_trips()
