@@ -5,32 +5,38 @@ class ProfileRepository:
         self._connection = connection
 
     def list_all(self):
-        rows = self._connection.execute("SELECT id, name FROM profiles ORDER BY name").fetchall()
+        sql = "SELECT id, name FROM profiles ORDER BY name"
+        rows = self._connection.execute(sql).fetchall()
         return list(map(tuple, rows))
 
-    def find_name(self, id : int):
-        result = self._connection.execute("SELECT name FROM profiles WHERE id = ?", [id]).fetchone()
+    def find_name(self, user_id : int):
+        sql = "SELECT name FROM profiles WHERE id = ?"
+        result = self._connection.execute(sql, [user_id]).fetchone()
         if result:
             return result[0]
         return None
 
     def find_id(self, name : str):
-        result = self._connection.execute("SELECT id FROM profiles WHERE name = ?", [name]).fetchone()
+        sql = "SELECT id FROM profiles WHERE name = ?"
+        result = self._connection.execute(sql, [name]).fetchone()
         if result:
             return result[0]
         return None
 
     def add(self, name : str):
         if self._name_available(name):
-            self._connection.execute("INSERT INTO profiles (name) VALUES (?)", [name])
+            sql = "INSERT INTO profiles (name) VALUES (?)"
+            self._connection.execute(sql, [name])
             self._connection.commit()
 
     def remove(self, name : str):
-        self._connection.execute("DELETE FROM profiles WHERE name==?", [name])
+        sql = "DELETE FROM profiles WHERE name==?"
+        self._connection.execute(sql, [name])
         self._connection.commit()
 
     def _name_available(self, name : str):
-        result = self._connection.execute("SELECT name FROM profiles WHERE name = ?", [name]).fetchone()
+        sql = "SELECT name FROM profiles WHERE name = ?"
+        result = self._connection.execute(sql, [name]).fetchone()
         return result is None
 
 profile_repository = ProfileRepository(get_db_connection())
