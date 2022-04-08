@@ -1,5 +1,4 @@
 import unittest
-from db_connection import get_db_connection
 from db_management import init_db
 from entities.trip import Trip
 from repositories.trip_repository import trip_repository
