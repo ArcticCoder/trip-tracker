@@ -3,6 +3,8 @@
 Vili Sinervän **OhTE** kurssin *git repositoirio*. Projektina matkojen seuranta sovellus.
 
 ## Dokumentaatio
+[Arkkitehtuuri](https://github.com/ArcticCoder/trip-tracker/blob/master/dokumentaatio/arkkitehtuuri.md)
+
 [Changelog](https://github.com/ArcticCoder/trip-tracker/blob/master/dokumentaatio/changelog.md)
 
 [Tuntikirjanpito](https://github.com/ArcticCoder/trip-tracker/blob/master/dokumentaatio/tuntikirjanpito.md)
