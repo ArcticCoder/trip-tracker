@@ -9,3 +9,4 @@
 |01.04.|3|Profiili GUI:n luonti|
 |07.04.|0,5|Pylintin ja autopep8:n käyttöönotto|
 ||4,5|Matkojen lukeminen ja tallentaminen. Matka GUI:n tekeminen|
+|08.04.|1|Uusien testien lisääminen|
