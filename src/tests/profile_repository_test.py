@@ -41,7 +41,7 @@ class TestProfileRepository(unittest.TestCase):
     def test_remove(self):
         profile_repository.add("Alice")
         profile_repository.add("Bob")
-        profile_repository.remove("Alice")
+        profile_repository.remove(1)
         profiles = profile_repository.list_all()
         self.assertEqual(len(profiles), 1)
         self.assertEqual(profiles[0][1], "Bob")
