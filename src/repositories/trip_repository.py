@@ -19,6 +19,11 @@ class TripRepository:
         return ret
 
     def add(self, profile_id: int, name: str, start_time: str, end_time: str, length: int):
+        if start_time > end_time:
+            return
+        if length < 0:
+            return
+
         sql = "INSERT INTO trips (profile_id, name, start_time, end_time, length)"\
             "VALUES (?, ?, ?, ?, ?);"
         self._connection.execute(
