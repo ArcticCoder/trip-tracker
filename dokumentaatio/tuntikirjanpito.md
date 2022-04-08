@@ -10,3 +10,5 @@
 |07.04.|0,5|Pylintin ja autopep8:n käyttöönotto|
 ||4,5|Matkojen lukeminen ja tallentaminen. Matka GUI:n tekeminen|
 |08.04.|1|Uusien testien lisääminen|
+||0,25|Dokumentaatio|
+|Yht.|16,5||
