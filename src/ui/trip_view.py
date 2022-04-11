@@ -23,7 +23,7 @@ class TripView():
         self._length_format_lbl = tk.Label(
             self._new_trip_frame, text="(m)", padx=5)
 
-        self._default_datetime_str = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
+        self._default_datetime_str = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
         self._new_start_lbl = tk.Label(
             self._new_trip_frame, text="Aloitus:", padx=5)
         self._new_start_entry = tk.Entry(self._new_trip_frame)
