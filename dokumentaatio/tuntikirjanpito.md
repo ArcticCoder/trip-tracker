@@ -11,4 +11,5 @@
 ||4,5|Matkojen lukeminen ja tallentaminen. Matka GUI:n tekeminen|
 |08.04.|1|Uusien testien lisääminen|
 ||0,25|Dokumentaatio|
-|Yht.|16,5||
+|11.04.|0,125|Pieni ylläpito|
+|Yht.|16,625||
