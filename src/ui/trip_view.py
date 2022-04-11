@@ -170,6 +170,10 @@ class TripView():
             self._new_length_entry.delete(0, "end")
             return
 
+        if length < 0:
+            self._new_length_entry.delete(0, "end")
+            return
+
         self._new_name_entry.delete(0, "end")
         self._new_start_entry.delete(0, "end")
         self._new_start_entry.insert(0, self._default_datetime_str)
