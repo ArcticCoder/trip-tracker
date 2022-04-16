@@ -10,6 +10,19 @@ class ProfileView():
         self._frame = tk.Frame(self._root)
         self._profile_frame = tk.Frame(self._frame)
 
+        self._new_profile_view()
+        self._print_profiles()
+
+    def pack(self):
+        self._frame.pack(fill=tk.constants.BOTH, expand=True)
+        self._root.update()
+        self._root.resizable(False, False)
+
+    def destroy(self):
+        self._frame.destroy()
+        self._root.resizable(True, True)
+
+    def _new_profile_view(self):
         self._new_profile_frame = tk.Frame(self._frame, pady=5)
         self._new_name_lbl = tk.Label(
             self._new_profile_frame, text="Nimi:", padx=5)
@@ -23,17 +36,6 @@ class ProfileView():
         self._new_name_entry.grid(row=0, column=1)
         self._new_profile_btn.grid(row=0, column=2)
         self._new_profile_frame.pack(fill=tk.constants.BOTH, expand=True)
-
-        self._print_profiles()
-
-    def pack(self):
-        self._frame.pack(fill=tk.constants.BOTH, expand=True)
-        self._root.update()
-        self._root.resizable(False, False)
-
-    def destroy(self):
-        self._frame.destroy()
-        self._root.resizable(True, True)
 
     def _print_profiles(self):
         if self._profile_frame:
