@@ -6,9 +6,8 @@ from services.trip_tracker_service import trip_tracker_service
 
 
 class TripView():
-    def __init__(self, root, profile_id, handle_exit_btn):
+    def __init__(self, root, handle_exit_btn):
         self._root = root
-        self._profile_id = profile_id
         self._handle_exit_btn = handle_exit_btn
         self._frame = tk.Frame(self._root)
         self._trips_frame = tk.Frame(self._root)
@@ -104,7 +103,7 @@ class TripView():
                               activebackground="grey", bg="grey", highlightbackground="grey", relief=tk.constants.FLAT)
         empty_btn.grid(row=0, column=6, sticky=tk.constants.EW)
 
-        trips = trip_tracker_service.get_trips(self._profile_id)
+        trips = trip_tracker_service.get_trips()
         if trips:
             for i in range(len(trips)):
                 trip = trips[i]
@@ -184,8 +183,7 @@ class TripView():
         self._new_end_entry.insert(0, self._default_datetime_str)
         self._new_length_entry.delete(0, "end")
 
-        trip_tracker_service.add_trip(
-            self._profile_id, name, start_time, end_time, length)
+        trip_tracker_service.add_trip(name, start_time, end_time, length)
         self._print_trips()
 
     def _del_btn_click(self, trip_id):
