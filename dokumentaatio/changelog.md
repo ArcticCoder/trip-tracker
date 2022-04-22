@@ -12,3 +12,8 @@
 - Trip-luokka matkoja varten toteutettu
 - Lisätty testit TripTrackerService-luokalle
 - Koodia siistitty
+
+## Viikko 5
+- Matkoista lasketaan ja näytetään käyttäjälle tilastoja
+- TripTrackerService ylläpitää omassa välimuistissaan viimeksi tietokannasta haetut matkat, ja päivittää tätä tarvittaessa. Tämä tehostaa ohjelman toimintaa silloin, kun tietojen lisäämisen/poistamisen välissä sama tieto halutaan hakea useampaan kertaan.
+- Koodia siistitty

@@ -1,17 +1,37 @@
 import tkinter as tk
-from functools import partial
+import matplotlib.dates
 from datetime import datetime
+from functools import partial
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
 from entities.trip import Trip
 from services.trip_tracker_service import trip_tracker_service
 
 
 class TripView():
-    def __init__(self, root, profile_id, handle_exit_btn):
+    def __init__(self, root, handle_exit_btn):
         self._root = root
-        self._profile_id = profile_id
+        self._handle_exit_btn = handle_exit_btn
         self._frame = tk.Frame(self._root)
         self._trips_frame = tk.Frame(self._root)
 
+        self._statistics_view()
+        self._print_statistics()
+
+        self._new_trip_view()
+        self._print_trips()
+
+    def pack(self):
+        self._frame.pack(fill=tk.constants.BOTH, expand=True)
+        self._root.update()
+        self._root.resizable(False, False)
+
+    def destroy(self):
+        self._frame.destroy()
+        self._root.resizable(True, True)
+
+    def _new_trip_view(self):
         self._new_trip_frame = tk.Frame(self._frame, pady=5)
 
         self._new_name_lbl = tk.Label(
@@ -38,7 +58,7 @@ class TripView():
         self._new_trip_btn = tk.Button(
             self._new_trip_frame, text="Lisää", command=self._handle_add_btn, padx=5)
         self._exit_btn = tk.Button(
-            self._new_trip_frame, text="Poistu", command=handle_exit_btn, padx=5)
+            self._new_trip_frame, text="Poistu", command=self._handle_exit_btn, padx=5)
 
         self._new_name_lbl.grid(row=0, column=0)
         self._new_name_entry.grid(row=0, column=1)
@@ -54,18 +74,7 @@ class TripView():
 
         self._new_trip_btn.grid(row=6, column=0)
         self._exit_btn.grid(row=6, column=1)
-        self._new_trip_frame.pack(fill=tk.constants.BOTH, expand=True)
-
-        self._print_trips()
-
-    def pack(self):
-        self._frame.pack(fill=tk.constants.BOTH, expand=True)
-        self._root.update()
-        self._root.resizable(False, False)
-
-    def destroy(self):
-        self._frame.destroy()
-        self._root.resizable(True, True)
+        self._new_trip_frame.pack()
 
     def _print_trips(self):
         if self._trips_frame:
@@ -101,7 +110,7 @@ class TripView():
                               activebackground="grey", bg="grey", highlightbackground="grey", relief=tk.constants.FLAT)
         empty_btn.grid(row=0, column=6, sticky=tk.constants.EW)
 
-        trips = trip_tracker_service.get_trips(self._profile_id)
+        trips = trip_tracker_service.get_trips()
         if trips:
             for i in range(len(trips)):
                 trip = trips[i]
@@ -142,6 +151,83 @@ class TripView():
 
         self._trips_frame.pack(fill=tk.constants.BOTH, expand=True)
 
+    def _statistics_view(self):
+        self._statistics_frame = tk.Frame(
+            self._frame, borderwidth=4, relief=tk.constants.SUNKEN)
+
+        self._speed_lbl = tk.Label(self._statistics_frame)
+        self._speed_lbl.pack()
+
+        self._duration_lbl = tk.Label(self._statistics_frame)
+        self._duration_lbl.pack()
+
+        self._length_lbl = tk.Label(self._statistics_frame)
+        self._length_lbl.pack()
+
+        self._statistics_fig = Figure(figsize=(6, 6), dpi=100)
+        self._statistics_fig.patch.set_facecolor(self._speed_lbl.cget("bg"))
+        self._stats_canvas = FigureCanvasTkAgg(
+            self._statistics_fig, master=self._statistics_frame)
+        toolbar = NavigationToolbar2Tk(
+            self._stats_canvas, self._statistics_frame)
+        toolbar.update()
+        self._stats_canvas.get_tk_widget().pack()
+
+        self._speed_plt = self._statistics_fig.add_subplot(211)
+        self._duration_plt = self._statistics_fig.add_subplot(223)
+        self._length_plt = self._statistics_fig.add_subplot(224)
+
+        self._statistics_frame.pack(
+            side=tk.constants.LEFT, fill=tk.constants.Y, expand=True)
+
+    def _print_statistics(self):
+        avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
+        dates = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S").date()
+                 for d in dates]
+
+        self._speed_lbl.config(text=f"Keskinopeus: {avg_speed:.1f} m/s")
+        self._duration_lbl.config(
+            text=f"Keskimääräinen kesto {trip_tracker_service.seconds_to_string(avg_duration)}")
+        self._length_lbl.config(
+            text=f"Keskimääräinen pituus {avg_length:.1f} m")
+
+        self._speed_plt.clear()
+        self._speed_plt.scatter(dates, speeds)
+        self._speed_plt.grid()
+        self._speed_plt.set_ylim([0, None])
+        self._speed_plt.set(xlabel="Päivämäärä", ylabel="Keskinopeus (m/s)")
+        self._speed_plt.xaxis.set_major_formatter(
+            matplotlib.dates.DateFormatter("%Y-%m-%d"))
+        self._speed_plt.xaxis.set_major_locator(
+            matplotlib.dates.MonthLocator())
+        self._speed_plt.tick_params(labelbottom=False)
+
+        self._duration_plt.clear()
+        self._duration_plt.scatter(
+            dates, [duration/60 for duration in durations])
+        self._duration_plt.grid()
+        self._duration_plt.set_ylim([0, None])
+        self._duration_plt.set(xlabel="Päivämäärä", ylabel="Kesto (min)")
+        self._duration_plt.xaxis.set_major_formatter(
+            matplotlib.dates.DateFormatter("%Y-%m-%d"))
+        self._duration_plt.xaxis.set_major_locator(
+            matplotlib.dates.MonthLocator())
+        self._duration_plt.tick_params(labelbottom=False)
+
+        self._length_plt.clear()
+        self._length_plt.scatter(dates, lengths)
+        self._length_plt.grid()
+        self._length_plt.set_ylim([0, None])
+        self._length_plt.set(xlabel="Päivämäärä", ylabel="Matka (m)")
+        self._length_plt.xaxis.set_major_formatter(
+            matplotlib.dates.DateFormatter("%Y-%m-%d"))
+        self._length_plt.xaxis.set_major_locator(
+            matplotlib.dates.MonthLocator())
+        self._length_plt.tick_params(labelbottom=False)
+
+        self._statistics_fig.tight_layout(pad=0.25)
+        self._stats_canvas.draw()
+
     def _handle_add_btn(self):
         name = self._new_name_entry.get()
 
@@ -181,10 +267,11 @@ class TripView():
         self._new_end_entry.insert(0, self._default_datetime_str)
         self._new_length_entry.delete(0, "end")
 
-        trip_tracker_service.add_trip(
-            self._profile_id, name, start_time, end_time, length)
+        trip_tracker_service.add_trip(name, start_time, end_time, length)
+        self._print_statistics()
         self._print_trips()
 
     def _del_btn_click(self, trip_id):
         trip_tracker_service.remove_trip(trip_id)
+        self._print_statistics()
         self._print_trips()
