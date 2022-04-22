@@ -30,6 +30,40 @@ class TripTrackerService:
         self._update_cache()
         return self._selected_trips
 
+    def get_statistics(self):
+        self._update_cache()
+        count = len(self._selected_trips)
+
+        if count > 0:
+            speed_sum = 0
+            duration_sum = 0
+            length_sum = 0
+            speeds = []
+            durations = []
+            lengths = []
+            dates = []
+
+            for trip in self._selected_trips:
+                speed = trip.speed
+                duration = trip.duration
+                length = trip.length
+
+                speed_sum += speed
+                duration_sum += duration
+                length_sum += length
+
+                speeds.append(speed)
+                durations.append(duration)
+                lengths.append(length)
+                dates.append(trip.start_time)
+
+            avg_speed = speed_sum/count
+            avg_duration = duration_sum/count
+            avg_length = length_sum/count
+            return avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates
+
+        return 0, 0, 0, [], [], [], []
+
     def add_trip(self, name: str, start_time: str, end_time: str, length: int):
         trip_repository.add(self._profile_id, name,
                             start_time, end_time, length)
@@ -44,7 +78,7 @@ class TripTrackerService:
         seconds -= hours*3600
         minutes = seconds // 60
         seconds -= minutes*60
-        return f"{hours:02}:{minutes:02}:{seconds:02}"
+        return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
     def valid_time(self, time: str):
         pattern1 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")

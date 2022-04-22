@@ -1,6 +1,10 @@
 import tkinter as tk
-from functools import partial
+import matplotlib.dates
 from datetime import datetime
+from functools import partial
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
 from entities.trip import Trip
 from services.trip_tracker_service import trip_tracker_service
 
@@ -11,6 +15,9 @@ class TripView():
         self._handle_exit_btn = handle_exit_btn
         self._frame = tk.Frame(self._root)
         self._trips_frame = tk.Frame(self._root)
+
+        self._statistics_view()
+        self._print_statistics()
 
         self._new_trip_view()
         self._print_trips()
@@ -67,7 +74,7 @@ class TripView():
 
         self._new_trip_btn.grid(row=6, column=0)
         self._exit_btn.grid(row=6, column=1)
-        self._new_trip_frame.pack(fill=tk.constants.BOTH, expand=True)
+        self._new_trip_frame.pack()
 
     def _print_trips(self):
         if self._trips_frame:
@@ -144,6 +151,83 @@ class TripView():
 
         self._trips_frame.pack(fill=tk.constants.BOTH, expand=True)
 
+    def _statistics_view(self):
+        self._statistics_frame = tk.Frame(
+            self._frame, borderwidth=4, relief=tk.constants.SUNKEN)
+
+        self._speed_lbl = tk.Label(self._statistics_frame)
+        self._speed_lbl.pack()
+
+        self._duration_lbl = tk.Label(self._statistics_frame)
+        self._duration_lbl.pack()
+
+        self._length_lbl = tk.Label(self._statistics_frame)
+        self._length_lbl.pack()
+
+        self._statistics_fig = Figure(figsize=(6, 6), dpi=100)
+        self._statistics_fig.patch.set_facecolor(self._speed_lbl.cget("bg"))
+        self._stats_canvas = FigureCanvasTkAgg(
+            self._statistics_fig, master=self._statistics_frame)
+        toolbar = NavigationToolbar2Tk(
+            self._stats_canvas, self._statistics_frame)
+        toolbar.update()
+        self._stats_canvas.get_tk_widget().pack()
+
+        self._speed_plt = self._statistics_fig.add_subplot(211)
+        self._duration_plt = self._statistics_fig.add_subplot(223)
+        self._length_plt = self._statistics_fig.add_subplot(224)
+
+        self._statistics_frame.pack(
+            side=tk.constants.LEFT, fill=tk.constants.Y, expand=True)
+
+    def _print_statistics(self):
+        avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
+        dates = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S").date()
+                 for d in dates]
+
+        self._speed_lbl.config(text=f"Keskinopeus: {avg_speed:.1f} m/s")
+        self._duration_lbl.config(
+            text=f"Keskimääräinen kesto {trip_tracker_service.seconds_to_string(avg_duration)}")
+        self._length_lbl.config(
+            text=f"Keskimääräinen pituus {avg_length:.1f} m")
+
+        self._speed_plt.clear()
+        self._speed_plt.scatter(dates, speeds)
+        self._speed_plt.grid()
+        self._speed_plt.set_ylim([0, None])
+        self._speed_plt.set(xlabel="Päivämäärä", ylabel="Keskinopeus (m/s)")
+        self._speed_plt.xaxis.set_major_formatter(
+            matplotlib.dates.DateFormatter("%Y-%m-%d"))
+        self._speed_plt.xaxis.set_major_locator(
+            matplotlib.dates.MonthLocator())
+        self._speed_plt.tick_params(labelbottom=False)
+
+        self._duration_plt.clear()
+        self._duration_plt.scatter(
+            dates, [duration/60 for duration in durations])
+        self._duration_plt.grid()
+        self._duration_plt.set_ylim([0, None])
+        self._duration_plt.set(xlabel="Päivämäärä", ylabel="Kesto (min)")
+        self._duration_plt.xaxis.set_major_formatter(
+            matplotlib.dates.DateFormatter("%Y-%m-%d"))
+        self._duration_plt.xaxis.set_major_locator(
+            matplotlib.dates.MonthLocator())
+        self._duration_plt.tick_params(labelbottom=False)
+
+        self._length_plt.clear()
+        self._length_plt.scatter(dates, lengths)
+        self._length_plt.grid()
+        self._length_plt.set_ylim([0, None])
+        self._length_plt.set(xlabel="Päivämäärä", ylabel="Matka (m)")
+        self._length_plt.xaxis.set_major_formatter(
+            matplotlib.dates.DateFormatter("%Y-%m-%d"))
+        self._length_plt.xaxis.set_major_locator(
+            matplotlib.dates.MonthLocator())
+        self._length_plt.tick_params(labelbottom=False)
+
+        self._statistics_fig.tight_layout(pad=0.25)
+        self._stats_canvas.draw()
+
     def _handle_add_btn(self):
         name = self._new_name_entry.get()
 
@@ -184,8 +268,10 @@ class TripView():
         self._new_length_entry.delete(0, "end")
 
         trip_tracker_service.add_trip(name, start_time, end_time, length)
+        self._print_statistics()
         self._print_trips()
 
     def _del_btn_click(self, trip_id):
         trip_tracker_service.remove_trip(trip_id)
+        self._print_statistics()
         self._print_trips()

@@ -15,6 +15,7 @@ class TestTripTrackerService(unittest.TestCase):
                             "2022-03-02 15:28", 82800)
         trip_repository.add(1, "Test1_2", "2022-01-01 12:00",
                             "2022-01-01 15:28", 12800)
+        trip_tracker_service.select_trips(-1)
 
     def test_get_profiles(self):
         profiles = trip_tracker_service.get_profiles()
@@ -49,43 +50,49 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(sorted([profile[1] for profile in profiles]), ["Bob"])
 
     def test_get_trips(self):
-        trips_1 = trip_tracker_service.get_trips(1)
-        trips_2 = trip_tracker_service.get_trips(2)
-        self.assertEqual(len(trips_1), 2)
-        self.assertEqual(len(trips_2), 0)
-        self.assertEqual([trip.name for trip in trips_1],
+        trip_tracker_service.select_trips(1)
+        trips = trip_tracker_service.get_trips()
+
+        self.assertEqual(len(trips), 2)
+        self.assertEqual([trip.name for trip in trips],
                          ["Test1_2", "Test1_1"])
-        trip_1 = trips_1[0]
+        trip_1 = trips[0]
         self.assertEqual(trip_1.name, "Test1_2")
         self.assertEqual(trip_1.duration, 12480)
         self.assertEqual(trip_1.length, 12800)
         self.assertEqual(trip_1.speed, 12800/12480)
 
-    def test_add_trip(self):
-        trips_1 = trip_tracker_service.get_trips(1)
-        self.assertEqual(len(trips_1), 2)
+        trip_tracker_service.select_trips(2)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 0)
 
-        trip_tracker_service.add_trip(1, "Test1_3", "2021-03-01 02:00",
+    def test_add_trip(self):
+        trip_tracker_service.select_trips(1)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 2)
+
+        trip_tracker_service.add_trip("Test1_3", "2021-03-01 02:00",
                                       "2021-03-02 15:28", 82800)
 
-        trips_1 = trip_tracker_service.get_trips(1)
-        self.assertEqual(len(trips_1), 3)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 3)
 
-        trip_1 = trips_1[0]
+        trip_1 = trips[0]
         self.assertEqual(trip_1.name, "Test1_3")
         self.assertEqual(trip_1.duration, 134880)
         self.assertEqual(trip_1.length, 82800)
         self.assertEqual(trip_1.speed, 82800/134880)
 
     def test_remove_trip(self):
-        trips_1 = trip_tracker_service.get_trips(1)
-        self.assertEqual(len(trips_1), 2)
+        trip_tracker_service.select_trips(1)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 2)
 
         trip_tracker_service.remove_trip(1)
 
-        trips_1 = trip_tracker_service.get_trips(1)
-        self.assertEqual(len(trips_1), 1)
-        trip_1 = trips_1[0]
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 1)
+        trip_1 = trips[0]
         self.assertEqual(trip_1.name, "Test1_2")
 
     def test_seconds_to_string(self):
