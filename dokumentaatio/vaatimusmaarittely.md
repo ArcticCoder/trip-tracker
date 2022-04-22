@@ -36,11 +36,11 @@ Pääikkuna, jossa voidaan
 	 - Lopetusaika (mahdollisesti vaihtoehtona myös suoraan matkan kesto)
 	 - Pituus
  - Poistaa matkoja (tehty)
- - Laskea ja tarkastella valituista matkoista erinnäisiä tilastoja. Esimerkiksi:
+ - Laskea ja tarkastella valituista matkoista erinnäisiä tilastoja. Esimerkiksi: (tehty)
 	 - Keskimääräinen kesto
 	 - Keskimääräinen pituus
 	 - Keskimääräinen nopeus
- - Piirtää matkojen (numeerisista) tiedoista ja niistä laskettavista arvoista kuvaajia. Esimerkiksi:
+ - Piirtää matkojen (numeerisista) tiedoista ja niistä laskettavista arvoista kuvaajia. Esimerkiksi: (tehty)
 	 - Kuvaaja valittujen matkojen kestoista/pituuksista/keskinopeuksista ajan myötä
  - Palata profiilinvalintaan (tehty)
 

@@ -12,4 +12,5 @@
 |08.04.|1|Uusien testien lisääminen|
 ||0,25|Dokumentaatio|
 |11.04.|0,125|Pieni ylläpito|
-|Yht.|16,625||
+|22.04.|5|Tilastojen laskeminen ja näyttäminen|
+|Yht.|21,625||
