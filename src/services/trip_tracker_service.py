@@ -6,6 +6,8 @@ from repositories.trip_repository import trip_repository
 class TripTrackerService:
     def __init__(self):
         self._profile_id = -1
+        self._start_time = None
+        self._end_time = None
         self._cache_invalid = True
         self._selected_trips = []
         self.select_trips(self._profile_id)
@@ -20,11 +22,17 @@ class TripTrackerService:
         trip_repository.remove_by_profile(profile_id)
         profile_repository.remove(profile_id)
 
-    def select_trips(self, profile_id):
+    def select_trips(self, profile_id, start_time=None, end_time=None):
         if self._profile_id != profile_id:
             self._profile_id = profile_id
             self._cache_invalid = True
-            self._update_cache()
+        if self._start_time != start_time:
+            self._start_time = start_time
+            self._cache_invalid = True
+        if self._end_time != end_time:
+            self._end_time = end_time
+            self._cache_invalid = True
+        self._update_cache()
 
     def get_trips(self):
         self._update_cache()
@@ -88,7 +96,7 @@ class TripTrackerService:
     def _update_cache(self):
         if self._cache_invalid:
             self._selected_trips = trip_repository.find_by_profile(
-                self._profile_id)
+                self._profile_id, self._start_time, self._end_time)
             self._cache_invalid = False
 
 
