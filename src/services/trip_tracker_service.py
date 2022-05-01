@@ -24,6 +24,7 @@ class TripTrackerService:
     def select_profile(self, profile_id):
         if self._profile_id != profile_id:
             self._profile_id = profile_id
+            self.select_time_range()
             self._cache_invalid = True
 
     def select_time_range(self, start_time=None, end_time=None):

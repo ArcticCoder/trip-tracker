@@ -36,5 +36,4 @@ class UI:
 
     def _handle_exit_trip_view(self):
         trip_tracker_service.select_profile(-1)
-        trip_tracker_service.select_time_range()
         self._show_profile_view()
