@@ -66,6 +66,36 @@ class TestTripTrackerService(unittest.TestCase):
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 0)
 
+    def test_get_statistics(self):
+        trip_tracker_service.select_trips(1)
+        avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
+
+        self.assertAlmostEqual(avg_speed, 0.82, 2)
+        self.assertEqual(avg_duration, 73680)
+        self.assertEqual(avg_length, 47800)
+
+        speeds_test = [1.03, 0.61]
+        durations_test = [12480, 134880]
+        lengths_test = [12800, 82800]
+        dates_test = ["2022-01-01 12:00", "2022-03-01 02:00"]
+
+        for i in range(len(speeds)):
+            self.assertAlmostEqual(speeds[i], speeds_test[i], 2)
+            self.assertEqual(durations[i], durations_test[i])
+            self.assertEqual(lengths[i], lengths_test[i])
+            self.assertEqual(dates[i], dates_test[i])
+
+        trip_tracker_service.select_trips(2)
+        avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
+
+        self.assertAlmostEqual(avg_speed, 0.00, 2)
+        self.assertEqual(avg_duration, 0)
+        self.assertEqual(avg_length, 0)
+        self.assertEqual(speeds, [])
+        self.assertEqual(durations, [])
+        self.assertEqual(lengths, [])
+        self.assertEqual(dates, [])
+
     def test_add_trip(self):
         trip_tracker_service.select_trips(1)
         trips = trip_tracker_service.get_trips()
@@ -109,6 +139,7 @@ class TestTripTrackerService(unittest.TestCase):
     def test_valid_time(self):
         self.assertTrue(trip_tracker_service.valid_time("2022-01-03 12:00"))
         self.assertTrue(trip_tracker_service.valid_time("2022-01-03 12:00:50"))
+
         self.assertFalse(trip_tracker_service.valid_time("2022:01:03 02:00"))
         self.assertFalse(trip_tracker_service.valid_time("22-01-03 02:00"))
         self.assertFalse(trip_tracker_service.valid_time("2022-01-03 2:00"))
