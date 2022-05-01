@@ -10,7 +10,6 @@ class TripTrackerService:
         self._end_time = None
         self._cache_invalid = True
         self._selected_trips = []
-        self.select_trips(self._profile_id)
 
     def get_profiles(self):
         return profile_repository.list_all()
@@ -22,17 +21,18 @@ class TripTrackerService:
         trip_repository.remove_by_profile(profile_id)
         profile_repository.remove(profile_id)
 
-    def select_trips(self, profile_id, start_time=None, end_time=None):
+    def select_profile(self, profile_id):
         if self._profile_id != profile_id:
             self._profile_id = profile_id
             self._cache_invalid = True
+
+    def select_time_range(self, start_time=None, end_time=None):
         if self._start_time != start_time:
             self._start_time = start_time
             self._cache_invalid = True
         if self._end_time != end_time:
             self._end_time = end_time
             self._cache_invalid = True
-        self._update_cache()
 
     def get_trips(self):
         self._update_cache()
@@ -87,6 +87,20 @@ class TripTrackerService:
         minutes = seconds // 60
         seconds -= minutes*60
         return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
+
+    def valid_date_time(self, time: str):
+        if self.valid_time(time):
+            return True
+        patterns = [re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}$"),
+                    re.compile(r"^\d{4}-\d{2}-\d{2}$"),
+                    re.compile(r"^\d{4}-\d{2}$"),
+                    re.compile(r"^\d{4}$")]
+
+        for pattern in patterns:
+            if pattern.match(time):
+                return True
+
+        return False
 
     def valid_time(self, time: str):
         pattern1 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")

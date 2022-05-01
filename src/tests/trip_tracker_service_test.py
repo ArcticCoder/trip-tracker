@@ -15,7 +15,7 @@ class TestTripTrackerService(unittest.TestCase):
                             "2022-03-02 15:28", 82800)
         trip_repository.add(1, "Test1_2", "2022-01-01 12:00",
                             "2022-01-01 15:28", 12800)
-        trip_tracker_service.select_trips(-1)
+        trip_tracker_service.select_profile(-1)
 
     def test_get_profiles(self):
         profiles = trip_tracker_service.get_profiles()
@@ -50,7 +50,7 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(sorted([profile[1] for profile in profiles]), ["Bob"])
 
     def test_get_trips(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         trips = trip_tracker_service.get_trips()
 
         self.assertEqual(len(trips), 2)
@@ -62,12 +62,12 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(trip_1.length, 12800)
         self.assertEqual(trip_1.speed, 12800/12480)
 
-        trip_tracker_service.select_trips(2)
+        trip_tracker_service.select_profile(2)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 0)
 
     def test_get_statistics(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
 
         self.assertAlmostEqual(avg_speed, 0.82, 2)
@@ -85,7 +85,7 @@ class TestTripTrackerService(unittest.TestCase):
             self.assertEqual(lengths[i], lengths_test[i])
             self.assertEqual(dates[i], dates_test[i])
 
-        trip_tracker_service.select_trips(2)
+        trip_tracker_service.select_profile(2)
         avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
 
         self.assertAlmostEqual(avg_speed, 0.00, 2)
@@ -97,7 +97,7 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(dates, [])
 
     def test_add_trip(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 2)
 
@@ -114,7 +114,7 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(trip_1.speed, 82800/134880)
 
     def test_remove_trip(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 2)
 

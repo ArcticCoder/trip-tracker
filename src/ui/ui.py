@@ -30,9 +30,11 @@ class UI:
         self._current_view.pack()
 
     def _handle_profile_select(self, profile_id):
-        trip_tracker_service.select_trips(profile_id)
+        trip_tracker_service.select_profile(profile_id)
+        trip_tracker_service.select_time_range()
         self._show_trips_view()
 
     def _handle_exit_trip_view(self):
-        trip_tracker_service.select_trips(-1)
+        trip_tracker_service.select_profile(-1)
+        trip_tracker_service.select_time_range()
         self._show_profile_view()
