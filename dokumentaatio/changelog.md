@@ -17,3 +17,6 @@
 - Matkoista lasketaan ja näytetään käyttäjälle tilastoja
 - TripTrackerService ylläpitää omassa välimuistissaan viimeksi tietokannasta haetut matkat, ja päivittää tätä tarvittaessa. Tämä tehostaa ohjelman toimintaa silloin, kun tietojen lisäämisen/poistamisen välissä sama tieto halutaan hakea useampaan kertaan.
 - Koodia siistitty
+
+## Viikko 6
+- Matkojen valinta voidaan rajata tietylle aikavälille halutulla tarkkuudella (vuosi, kuukausi jne)
