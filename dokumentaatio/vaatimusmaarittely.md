@@ -53,3 +53,7 @@ Pääikkuna, jossa voidaan
  - Olisi mahdollisesti kiinnnostavaa voida valita kaksi (tai useampi) profiilia samanaikaisesti ja vertailla niitä tilastojen ja kuvaajien avulla.
  - Uusia laskettavia tilastoja ja piirrettäviä kuvaajia on mahdollista keksiä liki loputtomasti, joten niitä lisätään mahdollisuuksien mukaan.
  - Valittujen matkojen tallentaminen esimerkiksi .csv tiedostoon
+
+### Tiedossa olevat ongelmat
+
+ - Joku on kohdannut matkojen lisäämisen/poistamisen yhteydessä virheviesteihin ja ohjelman jumittumiseen. En ole toistaiseksi saanut tätä toisinnettua yrityksistä huolimatta. Kaikkea ongelman yleisyyteen, toisintamiseen ja perimmäisiin syihin liittyvää tietoa arvostetaan suuresti!
