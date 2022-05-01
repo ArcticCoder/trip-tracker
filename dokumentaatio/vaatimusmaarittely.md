@@ -22,7 +22,7 @@ Pofiilinvalintaikkuna, jossa voidaan
 Pääikkuna, jossa voidaan
  - Tarkastella profiiliin liitettyjä matkoja (tehty)
 	 - Oletuksena näkyy kaikki matkat kronologisessa järjestyksessä (tehty)
-    - Valinta voidaan rajata tietylle aikavälille
+    - Valinta voidaan rajata tietylle aikavälille (tehty)
 	 - Matkoista näkyy (ainakin) (tehty)
 		 - Nimi
 		 - Aloitusaika
