@@ -20,6 +20,7 @@ class TripView():
         self._print_statistics()
 
         self._new_trip_view()
+        self._trip_selection_view()
         self._print_trips()
 
     def pack(self):
@@ -32,7 +33,8 @@ class TripView():
         self._root.resizable(True, True)
 
     def _new_trip_view(self):
-        self._new_trip_frame = tk.Frame(self._frame, pady=5)
+        self._new_trip_frame = tk.Frame(
+            self._frame, borderwidth=2, relief=tk.constants.SUNKEN, pady=5)
 
         self._new_name_lbl = tk.Label(
             self._new_trip_frame, text="Nimi:", padx=5)
@@ -75,6 +77,31 @@ class TripView():
         self._new_trip_btn.grid(row=6, column=0)
         self._exit_btn.grid(row=6, column=1)
         self._new_trip_frame.pack()
+
+    def _trip_selection_view(self):
+        self._trip_selection_frame = tk.Frame(
+            self._frame, borderwidth=2, relief=tk.constants.SUNKEN, pady=5)
+
+        self._start_lbl = tk.Label(
+            self._trip_selection_frame, text="Alku:", padx=5)
+        self._start_entry = tk.Entry(self._trip_selection_frame)
+        self._end_lbl = tk.Label(
+            self._trip_selection_frame, text="Loppu:", padx=5)
+        self._end_entry = tk.Entry(self._trip_selection_frame)
+        self._time_range_format_lbl = tk.Label(
+            self._trip_selection_frame, text="(YYYY(-MM-DD HH:MM:SS))", padx=5)
+
+        self._range_select_btn = tk.Button(
+            self._trip_selection_frame, text="Rajaa", command=self._handle_range_select_btn, padx=5)
+
+        self._start_lbl.grid(row=0, column=0)
+        self._start_entry.grid(row=0, column=1)
+        self._end_lbl.grid(row=0, column=2)
+        self._end_entry.grid(row=0, column=3)
+        self._time_range_format_lbl.grid(
+            row=0, column=4, sticky=tk.constants.W)
+        self._range_select_btn.grid(row=1, column=0)
+        self._trip_selection_frame.pack()
 
     def _print_trips(self):
         if self._trips_frame:
@@ -153,7 +180,7 @@ class TripView():
 
     def _statistics_view(self):
         self._statistics_frame = tk.Frame(
-            self._frame, borderwidth=4, relief=tk.constants.SUNKEN)
+            self._frame, borderwidth=2, relief=tk.constants.SUNKEN)
 
         self._speed_lbl = tk.Label(self._statistics_frame)
         self._speed_lbl.pack()
@@ -268,6 +295,30 @@ class TripView():
         self._new_length_entry.delete(0, "end")
 
         trip_tracker_service.add_trip(name, start_time, end_time, length)
+        self._print_statistics()
+        self._print_trips()
+
+    def _handle_range_select_btn(self):
+        start_time = self._start_entry.get()
+        if start_time == "":
+            start_time = None
+        elif not trip_tracker_service.valid_date_time(start_time):
+            self._start_entry.delete(0, "end")
+            return
+
+        end_time = self._end_entry.get()
+        if end_time == "":
+            end_time = None
+        elif not trip_tracker_service.valid_date_time(end_time):
+            self._end_entry.delete(0, "end")
+            return
+
+        if start_time and end_time and start_time > end_time:
+            self._start_entry.delete(0, "end")
+            self._end_entry.delete(0, "end")
+            return
+
+        trip_tracker_service.select_time_range(start_time, end_time)
         self._print_statistics()
         self._print_trips()
 

@@ -18,8 +18,15 @@ class TestTripRepository(unittest.TestCase):
     def test_find_by_profile(self):
         trips_1 = trip_repository.find_by_profile(1)
         trips_2 = trip_repository.find_by_profile(2)
+        trips_3 = trip_repository.find_by_profile(1, "2022-01-02")
+        trips_4 = trip_repository.find_by_profile(1, None, "2022-01-02")
+        trips_5 = trip_repository.find_by_profile(
+            1, "2022-01-02", "2022-01-03")
         self.assertEqual(len(trips_1), 2)
         self.assertEqual(len(trips_2), 0)
+        self.assertEqual(len(trips_3), 1)
+        self.assertEqual(len(trips_4), 1)
+        self.assertEqual(len(trips_5), 0)
         self.assertEqual([trip.name for trip in trips_1],
                          ["Test1_2", "Test1_1"])
         trip_1 = trips_1[0]

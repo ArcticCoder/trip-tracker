@@ -6,9 +6,10 @@ from repositories.trip_repository import trip_repository
 class TripTrackerService:
     def __init__(self):
         self._profile_id = -1
+        self._start_time = None
+        self._end_time = None
         self._cache_invalid = True
         self._selected_trips = []
-        self.select_trips(self._profile_id)
 
     def get_profiles(self):
         return profile_repository.list_all()
@@ -20,11 +21,19 @@ class TripTrackerService:
         trip_repository.remove_by_profile(profile_id)
         profile_repository.remove(profile_id)
 
-    def select_trips(self, profile_id):
+    def select_profile(self, profile_id):
         if self._profile_id != profile_id:
             self._profile_id = profile_id
+            self.select_time_range()
             self._cache_invalid = True
-            self._update_cache()
+
+    def select_time_range(self, start_time=None, end_time=None):
+        if self._start_time != start_time:
+            self._start_time = start_time
+            self._cache_invalid = True
+        if self._end_time != end_time:
+            self._end_time = end_time
+            self._cache_invalid = True
 
     def get_trips(self):
         self._update_cache()
@@ -80,6 +89,20 @@ class TripTrackerService:
         seconds -= minutes*60
         return f"{hours:02.0f}:{minutes:02.0f}:{seconds:02.0f}"
 
+    def valid_date_time(self, time: str):
+        if self.valid_time(time):
+            return True
+        patterns = [re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}$"),
+                    re.compile(r"^\d{4}-\d{2}-\d{2}$"),
+                    re.compile(r"^\d{4}-\d{2}$"),
+                    re.compile(r"^\d{4}$")]
+
+        for pattern in patterns:
+            if pattern.match(time):
+                return True
+
+        return False
+
     def valid_time(self, time: str):
         pattern1 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")
         pattern2 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
@@ -88,7 +111,7 @@ class TripTrackerService:
     def _update_cache(self):
         if self._cache_invalid:
             self._selected_trips = trip_repository.find_by_profile(
-                self._profile_id)
+                self._profile_id, self._start_time, self._end_time)
             self._cache_invalid = False
 
 

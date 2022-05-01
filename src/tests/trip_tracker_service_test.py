@@ -15,7 +15,7 @@ class TestTripTrackerService(unittest.TestCase):
                             "2022-03-02 15:28", 82800)
         trip_repository.add(1, "Test1_2", "2022-01-01 12:00",
                             "2022-01-01 15:28", 12800)
-        trip_tracker_service.select_trips(-1)
+        trip_tracker_service.select_profile(-1)
 
     def test_get_profiles(self):
         profiles = trip_tracker_service.get_profiles()
@@ -50,7 +50,7 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(sorted([profile[1] for profile in profiles]), ["Bob"])
 
     def test_get_trips(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         trips = trip_tracker_service.get_trips()
 
         self.assertEqual(len(trips), 2)
@@ -62,12 +62,34 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(trip_1.length, 12800)
         self.assertEqual(trip_1.speed, 12800/12480)
 
-        trip_tracker_service.select_trips(2)
+        trip_tracker_service.select_time_range("2022-01-02")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 1)
+        trip_1 = trips[0]
+        self.assertEqual(trip_1.name, "Test1_1")
+        self.assertEqual(trip_1.duration, 134880)
+        self.assertEqual(trip_1.length, 82800)
+        self.assertEqual(trip_1.speed, 82800/134880)
+
+        trip_tracker_service.select_time_range(None, "2022-01-03")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 1)
+        trip_1 = trips[0]
+        self.assertEqual(trip_1.name, "Test1_2")
+        self.assertEqual(trip_1.duration, 12480)
+        self.assertEqual(trip_1.length, 12800)
+        self.assertEqual(trip_1.speed, 12800/12480)
+
+        trip_tracker_service.select_time_range("2022-01-02", "2022-01-03")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 0)
+
+        trip_tracker_service.select_profile(2)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 0)
 
     def test_get_statistics(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
 
         self.assertAlmostEqual(avg_speed, 0.82, 2)
@@ -85,7 +107,7 @@ class TestTripTrackerService(unittest.TestCase):
             self.assertEqual(lengths[i], lengths_test[i])
             self.assertEqual(dates[i], dates_test[i])
 
-        trip_tracker_service.select_trips(2)
+        trip_tracker_service.select_profile(2)
         avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
 
         self.assertAlmostEqual(avg_speed, 0.00, 2)
@@ -97,7 +119,7 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(dates, [])
 
     def test_add_trip(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 2)
 
@@ -114,7 +136,7 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertEqual(trip_1.speed, 82800/134880)
 
     def test_remove_trip(self):
-        trip_tracker_service.select_trips(1)
+        trip_tracker_service.select_profile(1)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 2)
 
@@ -135,6 +157,31 @@ class TestTripTrackerService(unittest.TestCase):
             trip_tracker_service.seconds_to_string(3671), "01:01:11")
         self.assertEqual(
             trip_tracker_service.seconds_to_string(216069), "60:01:09")
+
+    def test_valid_date_time(self):
+        self.assertTrue(trip_tracker_service.valid_date_time("2022"))
+        self.assertTrue(trip_tracker_service.valid_date_time("2022-01"))
+        self.assertTrue(trip_tracker_service.valid_date_time("2022-01-03"))
+        self.assertTrue(trip_tracker_service.valid_date_time("2022-01-03 12"))
+        self.assertTrue(
+            trip_tracker_service.valid_date_time("2022-01-03 12:00"))
+        self.assertTrue(trip_tracker_service.valid_date_time(
+            "2022-01-03 12:00:50"))
+
+        self.assertFalse(trip_tracker_service.valid_date_time("22"))
+        self.assertFalse(trip_tracker_service.valid_date_time("2022:03"))
+        self.assertFalse(
+            trip_tracker_service.valid_date_time("2022:01:03 02:00"))
+        self.assertFalse(
+            trip_tracker_service.valid_date_time("22-01-03 02:00"))
+        self.assertFalse(
+            trip_tracker_service.valid_date_time("2022-01-03 2:00"))
+        self.assertFalse(
+            trip_tracker_service.valid_date_time("2022-1-03 12:00:50"))
+        self.assertFalse(
+            trip_tracker_service.valid_date_time("2022-01-3 12:00:50"))
+        self.assertFalse(
+            trip_tracker_service.valid_date_time("2022-01-03 a2:00"))
 
     def test_valid_time(self):
         self.assertTrue(trip_tracker_service.valid_time("2022-01-03 12:00"))
