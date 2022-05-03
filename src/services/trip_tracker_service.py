@@ -202,8 +202,15 @@ class TripTrackerService:
                     re.compile(r"^\d{4}-\d{2}$"),
                     re.compile(r"^\d{4}$")]
 
+        negative_patterns = [re.compile(r"^0000.*$"),
+                            re.compile(r"\d{4}-00.*$"),
+                            re.compile(r"^\d{4}-\d{2}-00.*$")]
+
         for pattern in patterns:
             if pattern.match(time):
+                for neg_pattern in negative_patterns:
+                    if neg_pattern.match(time):
+                        return False
                 return True
 
         return False
@@ -221,8 +228,21 @@ class TripTrackerService:
         Returns:
             True, jos merkkijono validi. False muutoin.
         """
-        pattern1 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$")
-        pattern2 = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
+        patterns = [re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"),
+                   re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")]
+
+        negative_patterns = [re.compile(r"^0000.*$"),
+                            re.compile(r"\d{4}-00.*$"),
+                            re.compile(r"^\d{4}-\d{2}-00.*$")]
+
+        for pattern in patterns:
+            if pattern.match(time):
+                for neg_pattern in negative_patterns:
+                    if neg_pattern.match(time):
+                        return False
+                return True
+
+        return False
         return pattern1.match(time) or pattern2.match(time)
 
     def _update_cache(self):
