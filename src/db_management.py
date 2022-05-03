@@ -1,12 +1,22 @@
 from db_connection import get_db_connection
 
 
-def drop_tables(connection):
+def drop_tables(connection: sqlite3.Connection):
+    """Poistaa tietokantataulut.
+
+    Args:
+        connection: Connection-tyyppinen tietokantayhteys
+    """
     connection.execute("DROP TABLE IF EXISTS profiles;")
     connection.execute("DROP TABLE IF EXISTS trips;")
 
 
-def create_tables(connection):
+def create_tables(connection: sqlite3.Connection):
+    """Luo tietokantataulut.
+
+    Args:
+        connection: Connection-tyyppinen tietokantayhteys
+    """
     connection.execute("CREATE TABLE IF NOT EXISTS profiles"
                        "(id INTEGER PRIMARY KEY, name TEXT UNIQUE);")
     connection.execute("CREATE TABLE IF NOT EXISTS trips"
@@ -17,6 +27,7 @@ def create_tables(connection):
 
 
 def init_db():
+    """Alustaa tietokannan."""
     connection = get_db_connection()
     drop_tables(connection)
     create_tables(connection)

@@ -10,7 +10,17 @@ from services.trip_tracker_service import trip_tracker_service
 
 
 class TripView():
+    """Matkanäkymästä vastaava luokka."""
+
     def __init__(self, root, handle_exit_btn):
+        """Luokan konstruktori.
+
+        Args:
+            root:
+                TKinter-elementti, jonka sisään näkymä luodaan.
+            handle_exit_btn:
+                Arvo, jota kutsutaan, kun "Poistu"-nappia painetaan.
+        """
         self._root = root
         self._handle_exit_btn = handle_exit_btn
         self._frame = tk.Frame(self._root)
@@ -24,11 +34,13 @@ class TripView():
         self._print_trips()
 
     def pack(self):
+        """Näyttää näkymän."""
         self._frame.pack(fill=tk.constants.BOTH, expand=True)
         self._root.update()
         self._root.resizable(False, False)
 
     def destroy(self):
+        """Poistaa näkymän."""
         self._frame.destroy()
         self._root.resizable(True, True)
 
@@ -322,7 +334,7 @@ class TripView():
         self._print_statistics()
         self._print_trips()
 
-    def _del_btn_click(self, trip_id):
+    def _del_btn_click(self, trip_id: int):
         trip_tracker_service.remove_trip(trip_id)
         self._print_statistics()
         self._print_trips()

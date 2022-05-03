@@ -4,7 +4,18 @@ from services.trip_tracker_service import trip_tracker_service
 
 
 class ProfileView():
+    """Matkanäkymästä vastaava luokka."""
+
     def __init__(self, root, handle_profile_select):
+        """Luokan konstruktori.
+
+        Args:
+            root:
+                TKinter-elementti, jonka sisään näkymä luodaan.
+            handle_profile_select:
+                Arvo, jota kutsutaan, kun profiili valitaan.
+                Saa argumenttina valitun profiilin id:n.
+        """
         self._root = root
         self._handle_profile_select = handle_profile_select
         self._frame = tk.Frame(self._root)
@@ -14,11 +25,13 @@ class ProfileView():
         self._print_profiles()
 
     def pack(self):
+        """Näyttää näkymän."""
         self._frame.pack(fill=tk.constants.BOTH, expand=True)
         self._root.update()
         self._root.resizable(False, False)
 
     def destroy(self):
+        """Poistaa näkymän."""
         self._frame.destroy()
         self._root.resizable(True, True)
 
@@ -65,6 +78,6 @@ class ProfileView():
         trip_tracker_service.add_profile(name)
         self._print_profiles()
 
-    def _del_btn_click(self, profile_id):
+    def _del_btn_click(self, profile_id: int):
         trip_tracker_service.remove_profile(profile_id)
         self._print_profiles()

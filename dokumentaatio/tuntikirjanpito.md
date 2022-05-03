@@ -14,4 +14,5 @@
 |11.04.|0,125|Pieni ylläpito|
 |22.04.|5|Tilastojen laskeminen ja näyttäminen|
 |01.05.|2|Valinnan rajaaminen ajan perusteella|
-|Yht.|23,625||
+|03.05.|3|Dokumentaatio|
+|Yht.|26,625||
