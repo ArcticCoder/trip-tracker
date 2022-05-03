@@ -69,11 +69,13 @@ class TripTrackerService:
                 YYYY(-MM-DD HH:MM:SS), suluissa olevat valinnaisia.
         """
         if self._start_time != start_time:
-            self._start_time = start_time
-            self._cache_invalid = True
+            if not start_time or self.valid_date_time(start_time):
+                self._start_time = start_time
+                self._cache_invalid = True
         if self._end_time != end_time:
-            self._end_time = end_time
-            self._cache_invalid = True
+            if not end_time or self.valid_date_time(end_time):
+                self._end_time = end_time
+                self._cache_invalid = True
 
     def get_trips(self):
         """Palauttaa valitut matkat.
@@ -144,6 +146,8 @@ class TripTrackerService:
             length:
                 Matkan pituus metreinä kokonaislukuna.
         """
+        if not self.valid_time(start_time) or not self.valid_time(end_time):
+            return
         self._trip_repository.add(self._profile_id, name,
                             start_time, end_time, length)
         self._cache_invalid = True
