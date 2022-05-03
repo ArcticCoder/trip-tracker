@@ -334,7 +334,7 @@ class TripView():
         self._print_statistics()
         self._print_trips()
 
-    def _del_btn_click(self, trip_id):
+    def _del_btn_click(self, trip_id: int):
         trip_tracker_service.remove_trip(trip_id)
         self._print_statistics()
         self._print_trips()

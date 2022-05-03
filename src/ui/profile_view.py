@@ -78,6 +78,6 @@ class ProfileView():
         trip_tracker_service.add_profile(name)
         self._print_profiles()
 
-    def _del_btn_click(self, profile_id):
+    def _del_btn_click(self, profile_id: int):
         trip_tracker_service.remove_profile(profile_id)
         self._print_profiles()

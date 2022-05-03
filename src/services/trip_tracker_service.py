@@ -43,7 +43,7 @@ class TripTrackerService:
         trip_repository.remove_by_profile(profile_id)
         profile_repository.remove(profile_id)
 
-    def select_profile(self, profile_id):
+    def select_profile(self, profile_id: int):
         """Valitsee uuden profiilin aktiiviseksi.
 
         Args:
@@ -55,7 +55,7 @@ class TripTrackerService:
             self.select_time_range()
             self._cache_invalid = True
 
-    def select_time_range(self, start_time=None, end_time=None):
+    def select_time_range(self, start_time: str=None, end_time: str=None):
         """Rajaa matkojen valinnan tietylle aikavälille.
 
         Args:

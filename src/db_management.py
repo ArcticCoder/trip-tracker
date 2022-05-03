@@ -1,7 +1,7 @@
 from db_connection import get_db_connection
 
 
-def drop_tables(connection):
+def drop_tables(connection: sqlite3.Connection):
     """Poistaa tietokantataulut.
 
     Args:
@@ -11,7 +11,7 @@ def drop_tables(connection):
     connection.execute("DROP TABLE IF EXISTS trips;")
 
 
-def create_tables(connection):
+def create_tables(connection: sqlite3.Connection):
     """Luo tietokantataulut.
 
     Args:
