@@ -57,4 +57,3 @@ Pääikkuna, jossa voidaan
 ### Tiedossa olevat ongelmat
 
  - Joku on kohdannut matkojen lisäämisen/poistamisen yhteydessä virheviesteihin ja ohjelman jumittumiseen. En ole toistaiseksi saanut tätä toisinnettua yrityksistä huolimatta. Kaikkea ongelman yleisyyteen, toisintamiseen ja perimmäisiin syihin liittyvää tietoa arvostetaan suuresti!
- - Liian suuri ero ensimmäisen ja viimeisen matkan välillä rikkoo ohjelman, koska kaavion piirtäminen ei toimi oikein
