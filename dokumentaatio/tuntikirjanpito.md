@@ -15,4 +15,5 @@
 |22.04.|5|Tilastojen laskeminen ja näyttäminen|
 |01.05.|2|Valinnan rajaaminen ajan perusteella|
 |03.05.|3|Dokumentaatio|
-|Yht.|26,625||
+||1|Pientä korjailua|
+|Yht.|27,625||
