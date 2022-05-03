@@ -17,4 +17,8 @@ connection.row_factory = sqlite3.Row
 
 
 def get_db_connection():
+    """Palauttaa aktiivisen tietokantayhteyden
+
+    Returns:
+        Aktiivinen tietokantayhteys Connection-oliona"""
     return connection
