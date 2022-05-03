@@ -1,6 +1,6 @@
 import re
-from repositories.profile_repository import profile_repository
-from repositories.trip_repository import trip_repository
+from repositories.profile_repository import profile_repository as default_profile_repository
+from repositories.trip_repository import trip_repository as default_trip_repository
 
 
 class TripTrackerService:
@@ -8,13 +8,15 @@ class TripTrackerService:
     Kaikki toiminnallisuuden käyttäminen tapahtuu tämän luokan kautta.
     """
 
-    def __init__(self):
+    def __init__(self, profile_repository=default_profile_repository, trip_repository=default_trip_repository):
         """Luokan konstruktori."""
         self._profile_id = -1
         self._start_time = None
         self._end_time = None
         self._cache_invalid = True
         self._selected_trips = []
+        self._profile_repository = profile_repository
+        self._trip_repository = trip_repository
 
     def get_profiles(self):
         """Listaa kaikki profiilit.
@@ -22,7 +24,7 @@ class TripTrackerService:
         Returns:
             Lista tupleja, jotka edustavat profiileja muodossa (id, nimi)
         """
-        return profile_repository.list_all()
+        return self._profile_repository.list_all()
 
     def add_profile(self, name: str):
         """Lisää uuden profiilin, jos nimi on saatavilla.
@@ -31,7 +33,7 @@ class TripTrackerService:
             name:
                 Uuden profiilin nimi merkkijonona.
         """
-        profile_repository.add(name)
+        self._profile_repository.add(name)
 
     def remove_profile(self, profile_id: int):
         """Poistaa profiilin ja siihen liittyvät matkat.
@@ -40,8 +42,8 @@ class TripTrackerService:
             profile_id:
                 Profiilin id tietokannassa kokonaislukuna.
         """
-        trip_repository.remove_by_profile(profile_id)
-        profile_repository.remove(profile_id)
+        self._trip_repository.remove_by_profile(profile_id)
+        self._profile_repository.remove(profile_id)
 
     def select_profile(self, profile_id: int):
         """Valitsee uuden profiilin aktiiviseksi.
@@ -142,7 +144,7 @@ class TripTrackerService:
             length:
                 Matkan pituus metreinä kokonaislukuna.
         """
-        trip_repository.add(self._profile_id, name,
+        self._trip_repository.add(self._profile_id, name,
                             start_time, end_time, length)
         self._cache_invalid = True
 
@@ -153,7 +155,7 @@ class TripTrackerService:
             trip_id:
                 Matkan id tietokannassa kokonaislukuna.
         """
-        trip_repository.remove(trip_id)
+        self._trip_repository.remove(trip_id)
         self._cache_invalid = True
 
     def seconds_to_string(self, seconds: int):
@@ -221,7 +223,7 @@ class TripTrackerService:
 
     def _update_cache(self):
         if self._cache_invalid:
-            self._selected_trips = trip_repository.find_by_profile(
+            self._selected_trips = self._trip_repository.find_by_profile(
                 self._profile_id, self._start_time, self._end_time)
             self._cache_invalid = False
 
