@@ -41,7 +41,6 @@ class UI:
     def _handle_profile_select(self, profile_id: int):
         #Avaa matkanäkymän, kun profiili valitaan
         trip_tracker_service.select_profile(profile_id)
-        trip_tracker_service.select_time_range()
         self._show_trips_view()
 
     def _handle_exit_trip_view(self):
