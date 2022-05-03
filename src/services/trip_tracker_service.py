@@ -243,7 +243,6 @@ class TripTrackerService:
                 return True
 
         return False
-        return pattern1.match(time) or pattern2.match(time)
 
     def _update_cache(self):
         if self._cache_invalid:

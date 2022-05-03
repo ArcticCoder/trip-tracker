@@ -190,6 +190,9 @@ class TestTripTrackerService(unittest.TestCase):
             trip_tracker_service.valid_date_time("2022-01-3 12:00:50"))
         self.assertFalse(
             trip_tracker_service.valid_date_time("2022-01-03 a2:00"))
+        self.assertFalse(trip_tracker_service.valid_date_time("0000-01-03"))
+        self.assertFalse(trip_tracker_service.valid_date_time("2022-00-03"))
+        self.assertFalse(trip_tracker_service.valid_date_time("2022-01-00"))
 
     def test_valid_time(self):
         self.assertTrue(trip_tracker_service.valid_time("2022-01-03 12:00"))
@@ -202,3 +205,6 @@ class TestTripTrackerService(unittest.TestCase):
         self.assertFalse(trip_tracker_service.valid_time("2022-01-3 12:00:50"))
         self.assertFalse(trip_tracker_service.valid_time("2022-01-03 12"))
         self.assertFalse(trip_tracker_service.valid_time("2022-01-03 a2:00"))
+        self.assertFalse(trip_tracker_service.valid_time("0000-01-03 12:00"))
+        self.assertFalse(trip_tracker_service.valid_time("2022-00-03 12:00"))
+        self.assertFalse(trip_tracker_service.valid_time("2022-01-00 12:00"))
