@@ -16,20 +16,6 @@ class TestProfileRepository(unittest.TestCase):
         self.assertEqual(sorted([profile[1] for profile in profiles]), [
                          "Alice", "Bob", "Charlie"])
 
-    def test_find_name(self):
-        profile_repository.add("Alice")
-        profile_repository.add("Bob")
-        self.assertEqual(profile_repository.find_name(1), "Alice")
-        self.assertEqual(profile_repository.find_name(2), "Bob")
-        self.assertIsNone(profile_repository.find_name(3))
-
-    def test_find_id(self):
-        profile_repository.add("Alice")
-        profile_repository.add("Bob")
-        self.assertEqual(profile_repository.find_id("Alice"), 1)
-        self.assertEqual(profile_repository.find_id("Bob"), 2)
-        self.assertIsNone(profile_repository.find_id("Charlie"))
-
     def test_add(self):
         profile_repository.add("Alice")
         profile_repository.add("Alice")

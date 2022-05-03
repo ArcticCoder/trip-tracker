@@ -84,6 +84,11 @@ class TestTripTrackerService(unittest.TestCase):
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 0)
 
+        trip_tracker_service.select_time_range()
+        trip_tracker_service.select_time_range("1", "1")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 2)
+
         trip_tracker_service.select_profile(2)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 0)
@@ -126,6 +131,9 @@ class TestTripTrackerService(unittest.TestCase):
         trip_tracker_service.add_trip("Test1_3", "2021-03-01 02:00",
                                       "2021-03-02 15:28", 82800)
 
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 3)
+        trip_tracker_service.add_trip("Test1_3", "1", "1", 82800)
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 3)
 
