@@ -8,7 +8,8 @@ class TripTrackerService:
     Kaikki toiminnallisuuden käyttäminen tapahtuu tämän luokan kautta.
     """
 
-    def __init__(self, profile_repository=default_profile_repository, trip_repository=default_trip_repository):
+    def __init__(self, profile_repository=default_profile_repository,
+                 trip_repository=default_trip_repository):
         """Luokan konstruktori."""
         self._profile_id = -1
         self._start_time = None
@@ -57,7 +58,7 @@ class TripTrackerService:
             self.select_time_range()
             self._cache_invalid = True
 
-    def select_time_range(self, start_time: str=None, end_time: str=None):
+    def select_time_range(self, start_time: str = None, end_time: str = None):
         """Rajaa matkojen valinnan tietylle aikavälille.
 
         Args:
@@ -86,7 +87,9 @@ class TripTrackerService:
         self._update_cache()
         return self._selected_trips
 
-    def get_statistics(self):
+    # Pylint virheiden poistaminen, koska funktio on helppo seurata nykyisessä tilassa
+    # ja muut ratkaisut olisivat pylintin miellyttämistä, eikä koodin parantamista.
+    def get_statistics(self):  # pylint: disable=too-many-locals, too-many-statements
         """Laskee valituista matkoista erinnäisiä tilastoja.
 
         Returns:
@@ -149,7 +152,7 @@ class TripTrackerService:
         if not self.valid_time(start_time) or not self.valid_time(end_time):
             return
         self._trip_repository.add(self._profile_id, name,
-                            start_time, end_time, length)
+                                  start_time, end_time, length)
         self._cache_invalid = True
 
     def remove_trip(self, trip_id: int):
@@ -203,10 +206,12 @@ class TripTrackerService:
                     re.compile(r"^\d{4}$")]
 
         negative_patterns = [re.compile(r"^0000.*$"),
-                            re.compile(r"\d{4}-00.*$"),
-                            re.compile(r"^\d{4}-\d{2}-00.*$")]
+                             re.compile(r"\d{4}-00.*$"),
+                             re.compile(r"^\d{4}-\d{2}-00.*$")]
 
-        for pattern in patterns:
+        # Pylint virheiden poistaminen, koska funktio on helppo seurata nykyisessä tilassa
+        # ja muut ratkaisut olisivat pylintin miellyttämistä, eikä koodin parantamista.
+        for pattern in patterns:  # pylint: disable=too-many-nested-blocks
             if pattern.match(time):
                 for neg_pattern in negative_patterns:
                     if neg_pattern.match(time):
@@ -229,13 +234,15 @@ class TripTrackerService:
             True, jos merkkijono validi. False muutoin.
         """
         patterns = [re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"),
-                   re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")]
+                    re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")]
 
         negative_patterns = [re.compile(r"^0000.*$"),
-                            re.compile(r"\d{4}-00.*$"),
-                            re.compile(r"^\d{4}-\d{2}-00.*$")]
+                             re.compile(r"\d{4}-00.*$"),
+                             re.compile(r"^\d{4}-\d{2}-00.*$")]
 
-        for pattern in patterns:
+        # Pylint virheiden poistaminen, koska funktio on helppo seurata nykyisessä tilassa
+        # ja muut ratkaisut olisivat pylintin miellyttämistä, eikä koodin parantamista.
+        for pattern in patterns:  # pylint: disable=too-many-nested-blocks
             if pattern.match(time):
                 for neg_pattern in negative_patterns:
                     if neg_pattern.match(time):

@@ -39,11 +39,11 @@ class UI:
         self._current_view.pack()
 
     def _handle_profile_select(self, profile_id: int):
-        #Avaa matkanäkymän, kun profiili valitaan
+        # Avaa matkanäkymän, kun profiili valitaan
         trip_tracker_service.select_profile(profile_id)
         self._show_trips_view()
 
     def _handle_exit_trip_view(self):
-        #Palaa profiilin valintaa, kun matkanäkymä suljetaan
+        # Palaa profiilin valintaa, kun matkanäkymä suljetaan
         trip_tracker_service.select_profile(-1)
         self._show_profile_view()

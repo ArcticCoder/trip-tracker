@@ -1,6 +1,6 @@
 class Trip:
     """Yksittäistä matkaa edustava luokka."""
-    
+
     def __init__(self, trip_id: int, name: str, start_time: str, end_time: str,
                  duration: int, length: int):
         """Luokan konstruktori.

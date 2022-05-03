@@ -1,5 +1,5 @@
-from db_connection import get_db_connection
 import sqlite3
+from db_connection import get_db_connection
 
 
 def drop_tables(connection: sqlite3.Connection):
