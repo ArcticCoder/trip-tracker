@@ -75,8 +75,11 @@ class TripTrackerService:
                 self._start_time = start_time
                 self._cache_invalid = True
         if self._end_time != end_time:
-            if not end_time or self.valid_date_time(end_time):
+            if not end_time:
                 self._end_time = end_time
+                self._cache_invalid = True
+            elif self.valid_date_time(end_time):
+                self._end_time = self.adjust_end_time(end_time)
                 self._cache_invalid = True
 
     def get_trips(self):
@@ -251,6 +254,36 @@ class TripTrackerService:
                 return True
 
         return False
+
+    def adjust_end_time(self, end_time: str):
+        """Muuntaa annetun loppuajan muotoon, joka tekee valinnasta intuitiivisempaa.
+        LOPPUTULOKSENA EI OLE TODELLISTA PÄIVÄMÄÄRÄÄ EDUSTAVA MERKKIJONO!
+
+        Args:
+            end_time:
+                Muokattava merkkijono.
+
+        Returns:
+            Muokattu merkkijono, jos alkuperäinen oli validi valid_time metodin mukaan.
+            Muussa tapauksessa tyhjä merkkijono.
+        """
+        if self.valid_date_time(end_time):
+            date_time_arr = end_time.split(" ")
+
+            date_arr = date_time_arr[0].split("-")
+            while len(date_arr) < 3:
+                date_arr.append(99)
+
+            if len(date_time_arr) == 1:
+                time_arr = []
+            else:
+                time_arr = date_time_arr[1].split(":")
+            while len(time_arr) < 3:
+                time_arr.append(99)
+
+            return f"{date_arr[0]}-{date_arr[1]}-{date_arr[2]} "\
+                f"{time_arr[0]}:{time_arr[1]}:{time_arr[2]}"
+        return ""
 
     def _update_cache(self):
         if self._cache_invalid:

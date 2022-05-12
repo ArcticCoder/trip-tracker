@@ -325,6 +325,9 @@ class TripView():
             self._end_entry.delete(0, "end")
             return
 
+        if end_time:
+            end_time = trip_tracker_service.adjust_end_time(end_time)
+
         if start_time and end_time and start_time > end_time:
             self._start_entry.delete(0, "end")
             self._end_entry.delete(0, "end")
