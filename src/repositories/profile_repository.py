@@ -46,6 +46,17 @@ class ProfileRepository:
         self._connection.execute(sql, [profile_id])
         self._connection.commit()
 
+    def exists(self, profile_id: int):
+        """Tarkistaa onko profiilia tietyllä id:llä olemassa.
+
+        Args:
+            profile_id:
+                Profiilin id tietokannassa kokonaislukuna.
+        """
+        sql = "SELECT id FROM profiles WHERE id = ?;"
+        result = self._connection.execute(sql, [profile_id]).fetchone()
+        return result is not None
+
     def _name_available(self, name: str):
         sql = "SELECT name FROM profiles WHERE name = ?;"
         result = self._connection.execute(sql, [name]).fetchone()

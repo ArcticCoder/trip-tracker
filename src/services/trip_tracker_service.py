@@ -54,9 +54,10 @@ class TripTrackerService:
                 Profiilin id tietokannassa kokonaislukuna.
         """
         if self._profile_id != profile_id:
-            self._profile_id = profile_id
-            self.select_time_range()
-            self._cache_invalid = True
+            if self._profile_repository.exists(profile_id) or profile_id == -1:
+                self._profile_id = profile_id
+                self.select_time_range()
+                self._cache_invalid = True
 
     def select_time_range(self, start_time: str = None, end_time: str = None):
         """Rajaa matkojen valinnan tietylle aikavälille.

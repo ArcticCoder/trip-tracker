@@ -93,6 +93,11 @@ class TestTripTrackerService(unittest.TestCase):
         trips = trip_tracker_service.get_trips()
         self.assertEqual(len(trips), 0)
 
+        trip_tracker_service.select_profile(1)
+        trip_tracker_service.select_profile(3)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 2)
+
     def test_get_statistics(self):
         trip_tracker_service.select_profile(1)
         avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()

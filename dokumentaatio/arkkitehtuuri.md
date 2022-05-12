@@ -50,6 +50,8 @@ Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliitty
  User ->> UI_classes : Valitse profiili 1
  
  UI_classes ->> TripTrackerService : select_profile(1)
+ TripTrackerService ->> ProfileRepository: exists(1)
+ ProfileRepository -->> TripTrackerService : True
  TripTrackerService ->> TripTrackerService : select_time_range()
  TripTrackerService -->> UI_classes : 
  UI_classes ->> UI_classes : _print_statistics()

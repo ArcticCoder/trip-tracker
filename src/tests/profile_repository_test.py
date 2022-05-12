@@ -30,3 +30,13 @@ class TestProfileRepository(unittest.TestCase):
         profiles = profile_repository.list_all()
         self.assertEqual(len(profiles), 1)
         self.assertEqual(profiles[0][1], "Bob")
+
+    def test_exists(self):
+        self.assertFalse(profile_repository.exists(1))
+        self.assertFalse(profile_repository.exists(2))
+        profile_repository.add("Alice")
+        self.assertTrue(profile_repository.exists(1))
+        self.assertFalse(profile_repository.exists(2))
+        profile_repository.add("Bob")
+        self.assertTrue(profile_repository.exists(1))
+        self.assertTrue(profile_repository.exists(2))
