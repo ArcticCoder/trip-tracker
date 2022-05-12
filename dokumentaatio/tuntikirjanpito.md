@@ -16,4 +16,5 @@
 |01.05.|2|Valinnan rajaaminen ajan perusteella|
 |03.05.|3|Dokumentaatio|
 ||1|Pientä korjailua|
-|Yht.|27,625||
+|12.05.|1,5|Aikavälin valinnan muuttamista ja pientä dokumentointia. Loppupalautuksen valmistelua.|
+|Yht.|29,125||
