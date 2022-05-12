@@ -28,7 +28,7 @@ Matkan lisääminen tapahtuu antamalla matkalle nimi, pituus ja alku- ja loppuai
 
 Matkan voi poistaa samalla tavalla kuin profiilin eli painamalla matkan vieressä näkyvää X-nappia.
 
-Taulukossa ja tilastoissa näkyvät matkat voi rajata tietylle aikavälille syöttämällä halutun alun, lopun tai molemmat ja painamalla "Rajaa"-nappia. Aikojen muoto on sama kuin matkojen lisäämisessä, mutta rajaamisessa kaikki vuoden jälkeen on vapaaehtoista.
+Taulukossa ja tilastoissa näkyvät matkat voi rajata tietylle aikavälille syöttämällä halutun alun, lopun tai molemmat ja painamalla "Rajaa"-nappia. Aikojen muoto on sama kuin matkojen lisäämisessä, mutta rajaamisessa kaikki vuoden jälkeen on vapaaehtoista. Loppupiste tulkitaan siten, että esimerkiksi "2022-02" ottaa mukaan kaikki ajat, jotka alkoivat vuoden 2022 Helmikuussa, tai aiemmin. Tekstikentän tyhjentäminen ja "Rajaa"-napin painaminen poistavat alku-/loppupisteen rajaukselta. Tyhjentämällä molemmat ja painamalla nappia pääsee siis takaisin rajaamattomaan tilaan.
 
 ![](./kuvat/kayttoohje-matkat.png)
 
