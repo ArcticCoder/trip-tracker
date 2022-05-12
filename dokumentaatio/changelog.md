@@ -21,3 +21,7 @@
 ## Viikko 6
 - Matkojen valinta voidaan rajata tietylle aikavälille halutulla tarkkuudella (vuosi, kuukausi jne)
 - Bugien korjailua
+
+## Viikko 7
+- Matkojen valintaa ajan perusteella tehty intuitiivisemmaksi
+- Dokumentaation parantamista
