@@ -43,6 +43,12 @@ ProfileRepository- ja TripRepository-luokat vastaavat tietojen pysyväistallennu
 
 ## Profiilin valitsemisen sekvenssikaavio
 Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliittymään liittyvät luokat on yhdistetty. Kaaviossa näkyy hyvin välimuistin toiminta.
+
+Käyttöliittymä lähettää erinnäisiä kutsuja TripTrackerService-luokalle, joka vastaa varsinaisesta toteutuksesta. Tässä tapauksessa käyttäjä on valinnut profiilin, jonka id on 1. TripTrackerService tarkistaa ensin profiilitietokannasta vastaavalta luokalta, että kyseinen profiili on olemassa, ja saa vastaukseksi True. TripTrackerService myös nollaa mahdollisen aikavälivalinnan samalla.
+
+Käyttöliittymä pyytää TripTrackerService:ltä valittujen matkojen tilastoja käyttäjälle näytettäväksi. Valinta on muuttunut viime kerrasta (eri profiili), jolloin `_update_cache` hakee matkat uudestaan profiilin ja aikavälin perusteella TripRepositoryn avulla ja tallentaa saamansa listan Trip-olioita. Näiden perusteella lasketaan nyt tilastot, jotka palautetaan käyttöliittymälle.
+
+Nyt käyttöliittymä haluaa näyttää itse matkat, joten se pyytää niitä TripTrackerService:ltä. Valinta ei ole tässä välissä muuttunut, jolloin `_update_cache` ei tee mitään ja TripTrackerService voi palauttaa suoraan aiemmin tallentamansa listan
 ```mermaid
  sequenceDiagram
  
@@ -70,6 +76,12 @@ Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliitty
 
 ## Matkan lisäämisen sekvenssikaavio
 Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliittymään liittyvät luokat on yhdistetty. Kaaviossa näkyy hyvin välimuistin toiminta.
+
+Tässä tapauksessa käyttäjä haluaa lisätä uuden matkan. Käyttöliittymä hyödyntää TripTrackerService:n metodeja tarkistaakseen, että syötteet ovat kunnossa. Tämä mahdollistaa sopivan tekstikentän nollaamisen virheen sattuessa.
+
+Varsinaisen matkan lisäämisen yhteydessä TripTrackerService tekee uudestaan tarkistukset, jotta sovelluksen toimivuus ei riipu käyttöliittymästä. Tämän jälkeen matka luodaan TripRepositoryn avulla.
+
+Käyttöliittymä päivittää näytetyt matkat ja tilastot uuden matkan luomisen jälkeen. Tämä vastaa pitkälti edellisen kaavion loppua, joten tätä osaa ei tässä avata sen enempää. Mainitsemisen arvoista on, että tässä tapauksessa `add_trip` metodi on vastuussa siitä, että TripTrackerService:n välimuisti on merkitty vanhentuneeksi.
 ```mermaid
  sequenceDiagram
  
@@ -92,7 +104,7 @@ Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliitty
  UI_classes ->> UI_classes : _print_statistics()
  UI_classes ->> TripTrackerService : get_statistics()
  TripTrackerService ->> TripTrackerService : _update_cache()
- TripTrackerService ->> TripRepository : find_by_profile(1, "2022-01-01 00:00", "2022-01-01 01:00")
+ TripTrackerService ->> TripRepository : find_by_profile(1, "2022-01-01 00:00:00", "2022-01-01 01:00:00")
  TripRepository ->> Trip : Useita konstruktori-kutsuja
  Trip -->> TripRepository : Luotu Trip-olio
  TripRepository -->> TripTrackerService : Lista Trip-olioita
@@ -102,3 +114,6 @@ Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliitty
  TripTrackerService ->> TripTrackerService : _update_cache()
  TripTrackerService -->> UI_classes : Lista Trip-olioita
 ```
+
+# Rakenteen heikkoudet
+Käyttöliittymän koodi voisi olla huomattavasti siistimpää ja tyyliseikkojen muuttaminen on nyt turhan työlästä.
