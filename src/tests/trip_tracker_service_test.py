@@ -228,3 +228,70 @@ class TestTripTrackerService(unittest.TestCase):
             "2022-01-02 03:04"), "2022-01-02 03:04:99")
         self.assertEqual(trip_tracker_service.adjust_end_time(
             "2022-01-02 03:04:05"), "2022-01-02 03:04:05")
+
+    #Test that combines most of the functionality of the entire program
+    def test_simulated_path(self):
+        profiles = trip_tracker_service.get_profiles()
+        self.assertEqual(len(profiles), 2)
+        self.assertEqual(profiles[0][1], "Alice")
+
+        trip_tracker_service.select_profile(profiles[0][0])
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 2)
+        trip_tracker_service.add_trip("Test1_3", "2022-01-01 08:00", "2022-01-01 09:00", 10000)
+        trip_tracker_service.add_trip("Test1_4", "2022-0X-01 08:00", "2022-01-01 09:00", 10000)
+
+        trip_tracker_service.select_profile(-1)
+        trip_tracker_service.add_profile("Alice")
+        trip_tracker_service.remove_profile(profiles[1][0])
+        trip_tracker_service.add_profile("Charlie")
+
+        profiles = trip_tracker_service.get_profiles()
+        self.assertEqual(len(profiles), 2)
+        self.assertEqual(profiles[1][1], "Charlie")
+        trip_tracker_service.select_profile(profiles[1][0])
+
+        trip_tracker_service.add_trip("Test2_1", "2022-01-01 08:00", "2022-01-01 09:00", 10000)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 1)
+        trip_tracker_service.select_profile(-1)
+
+        trip_tracker_service.select_profile(1)
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 3)
+        trip_1 = trips[0]
+        self.assertEqual(trip_1.name, "Test1_3")
+        self.assertEqual(trip_1.duration, 3600)
+        self.assertEqual(trip_1.length, 10000)
+        self.assertEqual(trip_1.speed, 10000/3600)
+
+
+        avg_speed, avg_duration, avg_length, speeds, durations, lengths, dates = trip_tracker_service.get_statistics()
+
+        self.assertAlmostEqual(avg_speed, 1.47, 2)
+        self.assertEqual(avg_duration, 50320)
+        self.assertEqual(avg_length, 35200)
+
+        speeds_test = [2.78, 1.03, 0.61]
+        durations_test = [3600, 12480, 134880]
+        lengths_test = [10000, 12800, 82800]
+        dates_test = ["2022-01-01 08:00", "2022-01-01 12:00", "2022-03-01 02:00"]
+
+        for i in range(len(speeds)):
+            self.assertAlmostEqual(speeds[i], speeds_test[i], 2)
+            self.assertEqual(durations[i], durations_test[i])
+            self.assertEqual(lengths[i], lengths_test[i])
+            self.assertEqual(dates[i], dates_test[i])
+
+
+        trip_tracker_service.remove_trip(trip_1.id)
+        trip_tracker_service.select_time_range("2022", "2022-01")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 1)
+        trip_tracker_service.select_time_range("2022", "2022-03")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 2)
+        trip_tracker_service.select_time_range("2022", "2022-01")
+        trip_tracker_service.select_time_range("2022", "2022-X1")
+        trips = trip_tracker_service.get_trips()
+        self.assertEqual(len(trips), 1)
