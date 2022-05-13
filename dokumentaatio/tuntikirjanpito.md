@@ -17,4 +17,5 @@
 |03.05.|3|Dokumentaatio|
 ||1|Pientä korjailua|
 |12.05.|1,5|Aikavälin valinnan muuttamista ja pientä dokumentointia. Loppupalautuksen valmistelua.|
-|Yht.|29,125||
+|13.05.|3|Dokumentointia. Loppupalautuksen valmistelua. Loppupalautus.|
+|Yht.|32,125||
