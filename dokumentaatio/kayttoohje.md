@@ -1,10 +1,29 @@
 # Käyttöohje
 
-## Käynnistäminen
+## Lataaminen
+Ohjelman uusimman vakaan version voi ladata tämän repositorion [Releases](https://github.com/ArcticCoder/trip-tracker/releases)-osiosta kohdasta _Assets > Source code_. Valitse tiedostomuodoista (zip/tar.gz) sellainen, jonka saat purettua. Jos et ole varma, zip on todennäköisesti hyvä vaihtoehto.
 
-Ohjelman voi käynnistää komennolla
+## Konfigurointi
 
+Ohjelmaan liittyvät tiedot tallennetaan _data_-kansiossa olevaan .sqlite-tiedostoon. Molemmat luodaan automaattisesti asennuksen yhteydessä. Tietokantatiedoston nimeä voi muuttaa _.env_-tiedoston avulla muuttamalla seuraavaa riviä
 ```
+DB_FILENAME=trip_tracker.sqlite
+```
+
+## Asentaminen ja Käynnistäminen
+
+1. Asenna riippuvuudet:
+```bash
+poetry install
+```
+
+2. Valmistele sovellus (**POISTAA OLEMASSAOLEVAN TIETOKANNAN**):
+```bash
+poetry run invoke build
+```
+
+3. Ohjelman voi nyt ja aina jatkossa käynnistää suoraan komennolla:
+```bash
 poetry run invoke start
 ```
 
