@@ -1,3 +1,4 @@
+import datetime
 import re
 from repositories.profile_repository import profile_repository as default_profile_repository
 from repositories.trip_repository import trip_repository as default_trip_repository
@@ -202,26 +203,10 @@ class TripTrackerService:
         Returns:
             True, jos merkkijono validi. False muutoin.
         """
-        if self.valid_time(time):
-            return True
-        patterns = [re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}$"),
-                    re.compile(r"^\d{4}-\d{2}-\d{2}$"),
-                    re.compile(r"^\d{4}-\d{2}$"),
-                    re.compile(r"^\d{4}$")]
-
-        negative_patterns = [re.compile(r"^0000.*$"),
-                             re.compile(r"\d{4}-00.*$"),
-                             re.compile(r"^\d{4}-\d{2}-00.*$")]
-
-        # Pylint virheiden poistaminen, koska funktio on helppo seurata nykyisessä tilassa
-        # ja muut ratkaisut olisivat pylintin miellyttämistä, eikä koodin parantamista.
-        for pattern in patterns:  # pylint: disable=too-many-nested-blocks
-            if pattern.match(time):
-                for neg_pattern in negative_patterns:
-                    if neg_pattern.match(time):
-                        return False
-                return True
-
+        pattern = re.compile(
+            r"^\d{4}(|-\d{2}(|-\d{2}(| \d{2}(|:\d{2}(|:\d{2})))))$")
+        if pattern.match(time):
+            return self._datetime_checker(time)
         return False
 
     def valid_time(self, time: str):
@@ -237,22 +222,10 @@ class TripTrackerService:
         Returns:
             True, jos merkkijono validi. False muutoin.
         """
-        patterns = [re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"),
-                    re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")]
 
-        negative_patterns = [re.compile(r"^0000.*$"),
-                             re.compile(r"\d{4}-00.*$"),
-                             re.compile(r"^\d{4}-\d{2}-00.*$")]
-
-        # Pylint virheiden poistaminen, koska funktio on helppo seurata nykyisessä tilassa
-        # ja muut ratkaisut olisivat pylintin miellyttämistä, eikä koodin parantamista.
-        for pattern in patterns:  # pylint: disable=too-many-nested-blocks
-            if pattern.match(time):
-                for neg_pattern in negative_patterns:
-                    if neg_pattern.match(time):
-                        return False
-                return True
-
+        pattern = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(|:\d{2})$")
+        if pattern.match(time):
+            return self._datetime_checker(time)
         return False
 
     def adjust_end_time(self, end_time: str):
@@ -290,6 +263,38 @@ class TripTrackerService:
             self._selected_trips = self._trip_repository.find_by_profile(
                 self._profile_id, self._start_time, self._end_time)
             self._cache_invalid = False
+
+    # Yhdistää kahden julkisen tarkistus funktion yhteiset piirteet
+    def _datetime_checker(self, time: str):
+        negative_pattern = re.compile(r"^0000.*$")
+        if negative_pattern.match(time):
+            return False
+
+        date_time_arr = time.split(" ")
+        date_arr = date_time_arr[0].split("-")
+        while len(date_arr) < 3:
+            date_arr.append("01")
+
+        if len(date_time_arr) == 1:
+            time_arr = []
+        else:
+            time_arr = date_time_arr[1].split(":")
+        while len(time_arr) < 3:
+            time_arr.append("00")
+
+        year = int(date_arr[0])
+        month = int(date_arr[1])
+        day = int(date_arr[2])
+
+        hour = int(time_arr[0])
+        minute = int(time_arr[1])
+        second = int(time_arr[2])
+
+        try:
+            datetime.datetime(year, month, day, hour, minute, second)
+            return True
+        except ValueError:
+            return False
 
 
 trip_tracker_service = TripTrackerService()
