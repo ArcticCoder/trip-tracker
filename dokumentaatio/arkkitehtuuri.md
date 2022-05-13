@@ -79,7 +79,7 @@ Kaaviota on yksinkertaistettu käyttöliittymän osalta ja kaikki käyttöliitty
 
 Tässä tapauksessa käyttäjä haluaa lisätä uuden matkan. Käyttöliittymä hyödyntää TripTrackerService:n metodeja tarkistaakseen, että syötteet ovat kunnossa. Tämä mahdollistaa sopivan tekstikentän nollaamisen virheen sattuessa.
 
-Varsinaisen matkan lisäämisen yhteydessä TripTrackerService tekee uudestaan tarkistukset, jotta sovelluksen toimivuus ei riipu käyttöliittymästä. Tämän jälkeen matka luodaan TripRepositoryn avulla.
+Varsinaisen matkan lisäämisen yhteydessä TripTrackerService tekee uudestaan tarkistukset, jotta sovelluksen toimivuus ei riipu käyttöliittymästä. Tarkistus koostuu kahdesta kutsusta, sillä sovelluksessa on käytössä kaksi eri aikaformaattia, joiden tarkistuksessa on kuitenkin merkittävästi toisteisuutta. Toisteinen koodi on siirretty luokan yksityiseen `_datetime_checker`-metodiin. Tämän jälkeen matka luodaan TripRepositoryn avulla.
 
 Käyttöliittymä päivittää näytetyt matkat ja tilastot uuden matkan luomisen jälkeen. Tämä vastaa pitkälti edellisen kaavion loppua, joten tätä osaa ei tässä avata sen enempää. Mainitsemisen arvoista on, että tässä tapauksessa `add_trip` metodi on vastuussa siitä, että TripTrackerService:n välimuisti on merkitty vanhentuneeksi.
 ```mermaid
@@ -89,13 +89,21 @@ Käyttöliittymä päivittää näytetyt matkat ja tilastot uuden matkan luomise
  User ->> UI_classes : Luo uusi matka
  
  UI_classes ->> TripTrackerService : valid_time("2022-01-01 00:00")
+ TripTrackerService ->> TripTrackerService : _datetime_checker("2022-01-01 00:00")
+ TripTrackerService -->> TripTrackerService : True
  TripTrackerService -->> UI_classes : True
  UI_classes ->> TripTrackerService : valid_time("2022-01-01 01:00")
+ TripTrackerService ->> TripTrackerService : _datetime_checker("2022-01-01 01:00")
+ TripTrackerService -->> TripTrackerService : True
  TripTrackerService -->> UI_classes : True
  UI_classes ->> TripTrackerService : add_trip("Matka", "2022-01-01 00:00", "2022-01-01 01:00", 1000)
  TripTrackerService ->> TripTrackerService : valid_time("2022-01-01 00:00")
+ TripTrackerService ->> TripTrackerService : _datetime_checker("2022-01-01 00:00")
+ TripTrackerService -->> TripTrackerService : True
  TripTrackerService -->> TripTrackerService : True
  TripTrackerService ->> TripTrackerService : valid_time("2022-01-01 01:00")
+ TripTrackerService ->> TripTrackerService : _datetime_checker("2022-01-01 01:00")
+ TripTrackerService -->> TripTrackerService : True
  TripTrackerService -->> TripTrackerService : True
  TripTrackerService ->> TripRepository : add(1, "Matka", "2022-01-01 00:00", "2022-01-01 01:00", 1000)
  TripRepository -->> TripTrackerService : 
