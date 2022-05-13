@@ -156,6 +156,13 @@ class TripTrackerService:
         """
         if not self.valid_time(start_time) or not self.valid_time(end_time):
             return
+
+        # Lisätään yhtenäisyyden vuoksi sekuntit, jos ne puuttuvat
+        if len(start_time.split(" ")[1].split(":")) == 2:
+            start_time = start_time + ":00"
+        if len(end_time.split(" ")[1].split(":")) == 2:
+            end_time = end_time + ":00"
+
         self._trip_repository.add(self._profile_id, name,
                                   start_time, end_time, length)
         self._cache_invalid = True

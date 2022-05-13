@@ -11,10 +11,10 @@ class TestTripTrackerService(unittest.TestCase):
         init_db()
         profile_repository.add("Alice")
         profile_repository.add("Bob")
-        trip_repository.add(1, "Test1_1", "2022-03-01 02:00",
-                            "2022-03-02 15:28", 82800)
-        trip_repository.add(1, "Test1_2", "2022-01-01 12:00",
-                            "2022-01-01 15:28", 12800)
+        trip_repository.add(1, "Test1_1", "2022-03-01 02:00:00",
+                            "2022-03-02 15:28:00", 82800)
+        trip_repository.add(1, "Test1_2", "2022-01-01 12:00:00",
+                            "2022-01-01 15:28:00", 12800)
         trip_tracker_service.select_profile(-1)
 
     def test_get_profiles(self):
@@ -109,7 +109,7 @@ class TestTripTrackerService(unittest.TestCase):
         speeds_test = [1.03, 0.61]
         durations_test = [12480, 134880]
         lengths_test = [12800, 82800]
-        dates_test = ["2022-01-01 12:00", "2022-03-01 02:00"]
+        dates_test = ["2022-01-01 12:00:00", "2022-03-01 02:00:00"]
 
         for i in range(len(speeds)):
             self.assertAlmostEqual(speeds[i], speeds_test[i], 2)
@@ -287,8 +287,8 @@ class TestTripTrackerService(unittest.TestCase):
         speeds_test = [2.78, 1.03, 0.61]
         durations_test = [3600, 12480, 134880]
         lengths_test = [10000, 12800, 82800]
-        dates_test = ["2022-01-01 08:00",
-                      "2022-01-01 12:00", "2022-03-01 02:00"]
+        dates_test = ["2022-01-01 08:00:00",
+                      "2022-01-01 12:00:00", "2022-03-01 02:00:00"]
 
         for i in range(len(speeds)):
             self.assertAlmostEqual(speeds[i], speeds_test[i], 2)
