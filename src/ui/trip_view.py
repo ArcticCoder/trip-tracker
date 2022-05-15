@@ -238,7 +238,11 @@ class TripView():
         self._speed_plt.xaxis.set_major_formatter(
             matplotlib.dates.DateFormatter("%Y-%m-%d"))
 
-        date_range_days = (dates[-1]-dates[0]).days
+        if len(dates) > 0:
+            date_range_days = (dates[-1]-dates[0]).days
+        else:
+            date_range_days = 0
+
         if date_range_days < 10*365:
             self._speed_plt.xaxis.set_major_locator(
                 matplotlib.dates.MonthLocator())
