@@ -24,4 +24,5 @@
 
 ## Viikko 7
 - Matkojen valintaa ajan perusteella tehty intuitiivisemmaksi
+- Pitkien aikavälien tilastointiin liittyvän bugin korjaaminen
 - Dokumentaation parantamista

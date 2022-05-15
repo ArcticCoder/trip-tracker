@@ -19,4 +19,5 @@
 |12.05.|1,5|Aikavälin valinnan muuttamista ja pientä dokumentointia. Loppupalautuksen valmistelua.|
 |13.05.|3|Dokumentointia. Loppupalautuksen valmistelua.|
 ||2|Testaamista ja bugien korjailua. Loppupalautus.|
-|Yht.|34,125||
+|15.05.|0,5|Bugin korjaaminen. Loppupalautuksen uusiminen.|
+|Yht.|34,625||

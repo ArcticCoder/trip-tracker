@@ -237,8 +237,20 @@ class TripView():
         self._speed_plt.set(xlabel="Päivämäärä", ylabel="Keskinopeus (m/s)")
         self._speed_plt.xaxis.set_major_formatter(
             matplotlib.dates.DateFormatter("%Y-%m-%d"))
-        self._speed_plt.xaxis.set_major_locator(
-            matplotlib.dates.MonthLocator())
+
+        date_range_days = (dates[-1]-dates[0]).days
+        if date_range_days < 10*365:
+            self._speed_plt.xaxis.set_major_locator(
+                matplotlib.dates.MonthLocator())
+        elif date_range_days < 100*365:
+            self._speed_plt.xaxis.set_major_locator(
+                matplotlib.dates.YearLocator(1, 1, 1))
+        elif date_range_days < 1000*365:
+            self._speed_plt.xaxis.set_major_locator(
+                matplotlib.dates.YearLocator(10, 1, 1))
+        else:
+            self._speed_plt.xaxis.set_major_locator(
+                matplotlib.dates.YearLocator(100, 1, 1))
         self._speed_plt.tick_params(labelbottom=False)
 
         self._duration_plt.clear()
